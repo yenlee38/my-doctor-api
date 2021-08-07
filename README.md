@@ -3,4 +3,10 @@
 
 ## How to use
 - run: npm install express mysql body-parser --save
-- Change your password mysql in config folfer
+- Create file db.config.js in folder config :
+module.exports = {
+    HOST: "localhost",
+    USER: "root",
+    PASSWORD: "password",
+    DB: "database"
+}
