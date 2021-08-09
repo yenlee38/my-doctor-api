@@ -5,12 +5,21 @@
 ## How to use
 
 - run:
-  npm install express mysql body-parser --save
-  npm install dotenv
-  npm install jsonwebtoken
-  npm install express-jwt
+	
+npm install express mysql body-parser --save
+	
+npm install dotenv
+	
+npm install jsonwebtoken
+	
+npm install express-jwt
+	
 - Create file .env :
-  HOST = localhost
-  USER = root
-  PASSWORD = password
-  DB = DatabaseName
+  
+HOST = localhost
+	
+USER = root
+	
+PASSWORD = password
+	
+DB = DatabaseName
