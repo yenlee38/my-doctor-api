@@ -1,6 +1,7 @@
 const Account = require("../models/account.model.js");
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const types = require("../types/index.js");
 exports.create = (req, res) => {
 
 }
@@ -10,10 +11,6 @@ exports.signin = (req, res) => {
 }
 
 exports.signout = (req, res) => {
-
-}
-
-exports.requireSignin = (req, res) => {
 
 }
 
@@ -87,9 +84,27 @@ exports.signout  = (req, res) => {
   res.send({message: "Signout success"});
 }
 
-// exports.requireSignin = expressJwt({
-//   secret: process.env.JWT_SECRET,
-//   userProperty: "auth"
-// })
+exports.requireSignin = expressJwt({
+  secret: process.env.JWT_SECRET,
+  userProperty: "auth",
+  algorithms: ['sha1', 'RS256', 'HS256']
+})
 
+exports.isAuth = (req, res, next) => {
+  let user = req.account && req.auth && req.acount.id == req.auth.id;
+  if(!user){
+    return res.status(403).json({
+      error: "Access denied"
+    });
+  }
+  next();
+}
 
+exports.isAdmin = (req, res, next) => {
+  if(req.account.role === types.ROLES.PATIENT){
+    return res.status(403).json({
+      error: "Admin resourse! Access denied "
+    })
+  }
+  next();
+}

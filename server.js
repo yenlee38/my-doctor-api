@@ -13,6 +13,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
+  const types = require("./app/types/index.js");
+  console.log(Object.values(types.EMOTION));
     res.json({ message: "Welcome to bezkoder application." });
   });
   
@@ -22,4 +24,5 @@ app.get("/", (req, res) => {
   });
 
   require("./app/routes/account.routes.js")(app);
+  require("./app/routes/address.routes.js")(app);
  
