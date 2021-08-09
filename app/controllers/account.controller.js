@@ -1,7 +1,6 @@
 const Account = require("../models/account.model.js");
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-
 exports.create = (req, res) => {
 
 }
