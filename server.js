@@ -1,9 +1,7 @@
-
 const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
-
 
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
@@ -13,16 +11,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple route
 app.get("/", (req, res) => {
-  const types = require("./app/types/index.js");
-  console.log(Object.values(types.EMOTION));
-    res.json({ message: "Welcome to bezkoder application." });
-  });
-  
-  // set port, listen for requests
-  app.listen(3000, () => {
-    console.log("Server is running on port 3000.");
-  });
+  res.json({ message: "Welcome to bezkoder application." });
+});
 
-  require("./app/routes/account.routes.js")(app);
-  require("./app/routes/address.routes.js")(app);
- 
+// set port, listen for requests
+app.listen(3000, () => {
+  console.log("Server is running on port 3000.");
+});
+
+require("./app/routes/account.routes.js")(app);
+require("./app/routes/doctor.routes.js")(app);
+require("./app/routes/patient.routes.js")(app);
+require("./app/routes/room.routes.js")(app);
