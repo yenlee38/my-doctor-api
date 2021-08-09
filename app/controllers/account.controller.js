@@ -19,12 +19,12 @@ exports.create = (req, res) => {
       role: req.body.role
     });
   
-    // Save Customer in the database
+    // Save Acccount in the database
     Account.create(account, (err, data) => {
       if (err)
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the Customer."
+            err.message || "Some error occurred while creating the Account."
         });
       else res.send(data);
     });

@@ -2,9 +2,11 @@ const sql = require("./db.js");
 
 //constructor
 const Account =  function(account) {
+    this.id = account.id;
     this.username = account.username;
     this.password = account.password;
     this.role = account.role;
+    this.isHidden = account.isHidden;
 }
 
 Account.create = (newAccount, result) => {
