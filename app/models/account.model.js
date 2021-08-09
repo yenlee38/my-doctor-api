@@ -21,4 +21,23 @@ Account.create = (newAccount, result) => {
     });
 };
 
+Account.signin = (username, password, result) => {
+    sql.query("SELECT * FROM Account WHERE username = '" + username + "' AND password = '" + password  +"'", (err, res) =>{
+        if(err){
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+
+        if(res.length){
+            console.log("Sign in account: " + res[0]);
+            result(null, res[0]);
+            return;
+        }
+
+        // signin fail
+    result({ kind: "not_found" }, null);
+    })
+}
+
 module.exports = Account;
