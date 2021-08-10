@@ -5,6 +5,8 @@ const Room = function (room) {
   this.id = room.id;
   this.name = room.name;
   this.department = room.department;
+  this.createdAt = room.createdAt;
+  this.updatedAt = room.updatedAt;
 };
 
 Room.create = (newRoom, result) => {

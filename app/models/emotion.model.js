@@ -5,6 +5,7 @@ const Emotion = function (emotion){
     this.updatetAt = emotion.updatetAt;
     this.description = emotion.description;
     this.emotion = emotion.emotion;
+    this.isHidden = emotion.isHidden;
 }
 
 module.exports = Emotion;

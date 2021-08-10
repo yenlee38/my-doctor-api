@@ -5,6 +5,8 @@ const Number = function (number){
     this.number = number.number;
     this.date = number.date;
     this.state = number.state;
+    // this.createdAt = number.createdAt;
+    // this.updatedAt = number.updatedAt;
 }
 
 module.exports = Number;

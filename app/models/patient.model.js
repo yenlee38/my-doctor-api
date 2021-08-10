@@ -9,6 +9,8 @@ const Patient = function (patient) {
   this.birthDate = patient.birthDate;
   this.gender = patient.gender;
   this.address = patient.address;
+  this.createdAt = patient.createdAt;
+  this.updatedAt = patient.updatedAt;
 };
 
 Patient.create = (id, result) => {
