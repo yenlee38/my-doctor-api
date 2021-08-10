@@ -10,6 +10,8 @@ const Doctor = function (doctor) {
   this.education = doctor.education;
   this.gender = doctor.gender;
   this.birthDate = doctor.birthDate;
+  this.createdAt = doctor.createdAt;
+  this.updatedAt = doctor.updatedAt;
 };
 
 Doctor.create = (id, result) => {

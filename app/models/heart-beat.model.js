@@ -6,6 +6,7 @@ const HeartBeat = function (beat){
     this.diastole = beat.diastole;
     this.systole = beat.systole;
     this.heartBeat = beat.heartBeat;
+    this.isHidden = beat.isHidden;
 }
 
 module.exports = HeartBeat;

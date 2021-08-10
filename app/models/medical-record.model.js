@@ -6,6 +6,8 @@ const MedicalRecord = function(medicalRecord){
     this.date = medicalRecord.date;
     this.precription = medicalRecord.precription;
     this.fileStore = medicalRecord.fileStore;
+    this.createdAt = bill.createdAt;
+    this.updatedAt = bill.updatedAt;
 
 }
 

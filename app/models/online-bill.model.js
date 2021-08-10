@@ -7,6 +7,7 @@ const OnlineBill = function(bill){
     this.price = bill.price;
     this.createdAt = bill.createdAt;
     this.updatedAt = bill.updatedAt;
+    this.isHidden = bill.isHidden;
 }
 
 module.exports = OnlineBill;

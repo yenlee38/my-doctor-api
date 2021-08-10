@@ -7,6 +7,9 @@ const Account = function (account) {
   this.password = account.password;
   this.role = account.role;
   this.isHidden = account.isHidden;
+  this.salt = account.salt;
+  this.updatedAt = account.updatedAt;
+  this.createdAt = account.createdAt;
 };
 
 Account.create = (newAccount, result) => {
@@ -102,5 +105,28 @@ Account.disableById = (id, account, result) => {
     }
   );
 };
+
+Account.getSalt = (username, result) => {
+  sql.query(
+    "SELECT * FROM Account WHERE username = ?",
+    [username],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, "");
+        return;
+      }
+
+      if (res.length) {
+        console.log("Get Salt in account: " + res[0].salt);
+        result(null, res[0].salt);
+        return;
+      }
+
+      // signin fail
+      result({ kind: "not_found" }, "");
+    }
+  );
+}
 
 module.exports = Account;
