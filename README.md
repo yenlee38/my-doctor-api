@@ -16,6 +16,10 @@ npm install express-jwt
 
 npm install uuid
 
+npm install cors
+
+
+
 - Create file .env :
   
 HOST = localhost

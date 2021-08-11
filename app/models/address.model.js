@@ -24,10 +24,10 @@ Address.create = (address, result) => {
 }
 
 Address.getAll = result => {
-    sql.query("SELECT * FROM Address", (err, res) =>{
+    sql.query("SELECT * FROM Address WHERE isHidden = false", (err, res) =>{
         if(err){
             console.log("error: ", err);
-            result(null, err);
+            result(err, null);
             return;
         }
 
@@ -37,7 +37,7 @@ Address.getAll = result => {
 } 
 
 Address.findById = (addressId, result) => {
-    sql.query(`SELECT * FROM Address WHERE id = ${addressId}`, (err, res) => {
+    sql.query(`SELECT * FROM Address WHERE id = ${addressId} and isHidden = false`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -50,13 +50,14 @@ Address.findById = (addressId, result) => {
         return;
       }
   
-      // not found Customer with the id
+      // not found Address with the id
       result({ kind: "not_found" }, null);
     });
   };
 
   Address.findByPatientId = (patientId, result) => {
-    sql.query(`SELECT * FROM Address WHERE patientId = ${patientId}`, (err, res) => {
+    console.log("patientId: " + patientId)
+    sql.query(`SELECT * FROM Address WHERE patientId = ${patientId} and isHidden = false`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -64,7 +65,7 @@ Address.findById = (addressId, result) => {
       }
   
       if (res.length) {
-        console.log("found Address: ", res);
+        console.log("Found Address: ", res);
         result(null, res);
         return;
       }
@@ -75,13 +76,14 @@ Address.findById = (addressId, result) => {
   };
 
   Address.updateById = (id, address, result) => {
+    console.log("vao")
     sql.query(
       "UPDATE Address SET name = ?, isDefault = ?, updatedAt = ? WHERE id = ?",
       [address.name, address.isDefault, new Date(), id],
       (err, res) => {
         if (err) {
           console.log("error: ", err);
-          result(null, err);
+          result(err, null);
           return;
         }
   
@@ -98,10 +100,11 @@ Address.findById = (addressId, result) => {
   };
 
   Address.remove = (id, result) => {
-    sql.query("DELETE FROM Address WHERE id = ?", id, (err, res) => {
+  
+    sql.query("UPDATE Address SET isHidden = true  WHERE id = ?", id, (err, res) => {
       if (err) {
         console.log("error: ", err);
-        result(null, err);
+        result(err, null);
         return;
       }
   
@@ -111,16 +114,30 @@ Address.findById = (addressId, result) => {
         return;
       }
   
-      console.log("deleted address with id: ", id);
+      console.log("Delete address id: " + id);
       result(null, res);
     });
   };
 
   Address.removeAll = result => {
-    sql.query("DELETE FROM Address", (err, res) => {
+    sql.query("UPDATE Address SET isHidden = true", (err, res) => {
       if (err) {
         console.log("error: ", err);
-        result(null, err);
+        result(err, null);
+        return;
+      }
+  
+      console.log(`deleted ${res.affectedRows} address`);
+      result(null, res);
+    });
+  };
+
+  Address.removeAllByPatientId = (patientId, result) => {
+    console.log("patient")
+    sql.query(`UPDATE Address SET isHidden = true Where patientId = ${patientId}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
         return;
       }
   
