@@ -16,6 +16,8 @@ exports.signout = (req, res) => {
 
 }
 
+exports.findAll = (req, res) =>{}
+
 exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -31,7 +33,8 @@ exports.create = (req, res) => {
       password:  Account.hashPassword(req.body.password, salt),
       role: req.body.role,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      isHidden: false
     });
   
     // Save Acccount in the database
@@ -183,15 +186,22 @@ exports.disable = (req, res) => {
 
 Account.hashPassword = (password, salt) =>{
   if(!password) return '';
-  console.log("hash: " + salt)
   try{
-    console.log("hash")
     return crypto.createHmac('sha1', salt)
             .update(password)
             .digest('hex')
   }catch (err){
-    console.log(err + "not hash")
     return '';
   }
+}
+
+exports.findAll = (req, res) =>{
+  Account.getAll((err, data) =>{
+    if(err){
+      res.status(500).send({
+        message: err.message || "Some thing was wrong when get all Account"
+      })
+    }
+  })
 }
 

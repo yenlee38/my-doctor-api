@@ -129,4 +129,16 @@ Account.getSalt = (username, result) => {
   );
 }
 
+Account.getAll  = result =>{
+  sql.query("Select * from Account Where isHidden = false", (err, res) =>{
+    if(err){
+      console.log("Err: " + err);
+      result(err, null);
+      return;
+    }
+
+    result(null, res);
+  })
+}
+
 module.exports = Account;
