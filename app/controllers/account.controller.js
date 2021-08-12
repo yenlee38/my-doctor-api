@@ -33,7 +33,8 @@ exports.create = (req, res) => {
       password:  Account.hashPassword(req.body.password, salt),
       role: req.body.role,
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      isHidden: false
     });
   
     // Save Acccount in the database
