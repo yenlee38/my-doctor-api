@@ -3,4 +3,4 @@
 package-lock.json
 
 # The file containing environment variables 
-.env
+# .env
