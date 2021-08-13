@@ -19,7 +19,7 @@ BMI.create = (BMI, result) => {
         }
 
         console.log("created BMI: ", {id: res.id, ...BMI});
-        result(null, {id: res.id, ...BMI});
+        result(null, { ...BMI});
     })
 }
 
@@ -92,7 +92,7 @@ BMI.findById = (bmiId, result) => {
         }
   
         console.log("updated BMI: ", { id: id, ...BMI });
-        result(null, { id: id, ...BMI });
+        result(null, {...BMI });
       }
     );
   };

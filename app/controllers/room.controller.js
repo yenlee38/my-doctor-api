@@ -1,5 +1,5 @@
 const Room = require("../models/room.model.js");
-
+const {v4: uuidv4} = require('uuid');
 // Create and Save a new Room
 exports.create = (req, res) => {
   if (!req.body) {
@@ -8,6 +8,7 @@ exports.create = (req, res) => {
     });
   }
   const room = new Room({
+    id: uuidv4(),
     name: req.body.name,
     department: req.body.department,
   });

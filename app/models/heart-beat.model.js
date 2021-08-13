@@ -19,7 +19,7 @@ HeartBeat.create = ( heartBeat,result) =>{
         }
         
         console.log({id: res.id, ...heartBeat})
-        result(null, {id: res.id, ...heartBeat});
+        result(null, {...heartBeat});
 
     } )
 }
@@ -40,7 +40,7 @@ HeartBeat.updateById = (id, heartBeat, result) =>{
         }
 
         console.log( res.affectedRows  + " HeartBeart was updated!" + { id: id, ...heartBeat })
-        result(null, { id: id, ...heartBeat });
+        result(null, { ...heartBeat });
     })
 }
 

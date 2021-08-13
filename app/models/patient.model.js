@@ -13,21 +13,21 @@ const Patient = function (patient) {
   this.updatedAt = patient.updatedAt;
 };
 
-Patient.create = (id, result) => {
-  sql.query("INSERT INTO patient (id) VALUES (?)", id, (err, res) => {
+Patient.create = (patient, result) => {
+  sql.query("INSERT INTO Patient set ?", patient, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created patient: ", { id });
-    result(null, { id });
+    console.log("created patient: ", );
+    result(null, {...patient});
   });
 };
 
 Patient.findById = (patientId, result) => {
-  sql.query(`SELECT * FROM patient WHERE id = ${patientId}`, (err, res) => {
+  sql.query(`SELECT * FROM Patient WHERE id = ?` , [patientId], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

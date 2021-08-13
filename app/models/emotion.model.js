@@ -19,7 +19,7 @@ Emotion.create = (emotion, result) => {
         }
 
         console.log("created emotion: ", {id: res.id, ...emotion});
-        result(null, {id: res.id, ...emotion});
+        result(null, { ...emotion});
     })
 }
 
@@ -93,7 +93,7 @@ Emotion.findById = (emotionId, result) => {
         }
   
         console.log("updated emotion: ", { id: id, ...emotion });
-        result(null, { id: id, ...emotion });
+        result(null, {...emotion });
       }
     );
   };

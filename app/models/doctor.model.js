@@ -14,21 +14,21 @@ const Doctor = function (doctor) {
   this.updatedAt = doctor.updatedAt;
 };
 
-Doctor.create = (id, result) => {
-  sql.query(`INSERT INTO doctor(id) VALUES (${id})`, (err, res) => {
+Doctor.create = (doctor, result) => {
+  sql.query(`INSERT INTO doctor set ?`,doctor, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
 
-    console.log("created doctor: ", { id });
-    result(null, { id });
+    console.log("created doctor: ");
+    result(null, {...doctor});
   });
 };
 
 Doctor.findById = (doctorId, result) => {
-  sql.query(`SELECT * FROM doctor WHERE id = ${doctorId}`, (err, res) => {
+  sql.query(`SELECT * FROM doctor WHERE id = ?`, [doctorId], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
