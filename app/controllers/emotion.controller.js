@@ -1,4 +1,5 @@
 const Emotion = require("../models/emotion.model.js");
+const {v4: uuidv4} = require('uuid');
 
 exports.create = (req, res) => {}
 exports.findAll = (req, res) =>{}
@@ -16,6 +17,7 @@ exports.create = (req, res) => {
     };
 
     const emotion = new Emotion({
+        id: uuidv4(),
         patientId: req.body.patientId,
         description: req.body.description,
         emotion: req.body.emotion,

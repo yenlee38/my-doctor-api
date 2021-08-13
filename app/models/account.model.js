@@ -23,18 +23,28 @@ Account.create = (newAccount, result) => {
     switch (newAccount.role) {
       case "doctor":
         const Doctor = require("./doctor.model.js");
-        Doctor.create(res.insertId, (err, data) => {});
+        const doctor = new Doctor({
+          id: newAccount.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        Doctor.create(doctor, (err, data) => {});
         break;
       case "patient":
         const Patient = require("./patient.model.js");
-        Patient.create(res.insertId, (err, data) => {});
+        const patient = new Patient({
+          id: newAccount.id,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        Patient.create(patient, (err, data) => {});
         break;
       default:
         break;
     }
 
     console.log("created account: ", { id: res.insertId, ...newAccount });
-    result(null, { id: res.insertId, ...newAccount });
+    result(null, { ...newAccount });
   });
 };
 
@@ -101,7 +111,7 @@ Account.disableById = (id, account, result) => {
       }
 
       console.log("updated account: ", { id: id, ...account });
-      result(null, { id: id, ...account });
+      result(null, { ...account });
     }
   );
 };
@@ -139,6 +149,23 @@ Account.getAll  = result =>{
 
     result(null, res);
   })
+}
+
+Account.getById = (id, result) =>{
+  sql.query("Select * from Account Where id = ?", [id], (err, res) =>{
+    if(err){
+      result(err, null);
+      return;
+    }
+    
+    if(res.length){
+      result(null, res[0]);
+      return;
+    }
+    
+    result({kind:"not_found"}, null);
+  }
+  )
 }
 
 module.exports = Account;

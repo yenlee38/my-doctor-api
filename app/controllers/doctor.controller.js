@@ -1,4 +1,5 @@
 const Doctor = require("../models/doctor.model.js");
+const {v4: uuidv4} = require('uuid');
 
 exports.findAll = (req, res) => {
   Doctor.getAll((err, data) => {
