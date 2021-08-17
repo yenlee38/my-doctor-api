@@ -176,7 +176,7 @@ Account.getByUsername = (username, result) =>{
     }
     
     if(res.length){
-      result(null, 0);
+      result(null, 1);
       return;
     }
     
