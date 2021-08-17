@@ -37,7 +37,7 @@ Address.getAll = result => {
 } 
 
 Address.findById = (addressId, result) => {
-    sql.query(`SELECT * FROM Address WHERE id = ${addressId} and isHidden = false`, (err, res) => {
+    sql.query(`SELECT * FROM Address WHERE id = "${addressId}" and isHidden = false`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -56,8 +56,7 @@ Address.findById = (addressId, result) => {
   };
 
   Address.findByPatientId = (patientId, result) => {
-    console.log("patientId: " + patientId)
-    sql.query(`SELECT * FROM Address WHERE patientId = ${patientId} and isHidden = false`, (err, res) => {
+    sql.query(`SELECT * FROM Address WHERE patientId = ? and isHidden = false`, [patientId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -76,7 +75,6 @@ Address.findById = (addressId, result) => {
   };
 
   Address.updateById = (id, address, result) => {
-    console.log("vao")
     sql.query(
       "UPDATE Address SET name = ?, isDefault = ?, updatedAt = ? WHERE id = ?",
       [address.name, address.isDefault, new Date(), id],
@@ -134,7 +132,7 @@ Address.findById = (addressId, result) => {
 
   Address.removeAllByPatientId = (patientId, result) => {
     console.log("patient")
-    sql.query(`UPDATE Address SET isHidden = true Where patientId = ${patientId}`, (err, res) => {
+    sql.query(`UPDATE Address SET isHidden = true Where patientId = ?`, [patientId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

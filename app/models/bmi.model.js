@@ -37,7 +37,7 @@ BMI.getAll = result => {
 } 
 
 BMI.findById = (bmiId, result) => {
-    sql.query(`SELECT * FROM BMI WHERE id = ${bmiId} and isHidden = false`, (err, res) => {
+    sql.query(`SELECT * FROM BMI WHERE id = "${bmiId}" and isHidden = false`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -56,7 +56,7 @@ BMI.findById = (bmiId, result) => {
   };
 
   BMI.findByPatientId = (patientId, result) => {
-    sql.query(`SELECT * FROM BMI WHERE patientId = ${patientId} and isHidden = false`, (err, res) => {
+    sql.query(`SELECT * FROM BMI WHERE patientId = "${patientId}" and isHidden = false`, (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -76,7 +76,7 @@ BMI.findById = (bmiId, result) => {
 
   BMI.updateById = (id, BMI, result) => {
     sql.query(
-      `UPDATE BMI SET weigh = ?, tall = ?, bmi = ?, updatedAt = ? WHERE id = ${id}`,
+      `UPDATE BMI SET weigh = ?, tall = ?, bmi = ?, updatedAt = ? WHERE id = "${id}"`,
       [BMI.weigh, BMI.tall, BMI.weigh/(2*0.01*BMI.tall), new Date()],
       (err, res) => {
         if (err) {
@@ -131,8 +131,7 @@ BMI.findById = (bmiId, result) => {
   };
 
   BMI.removeAllByPatientId = (patientId, result) => {
-    console.log("patient")
-    sql.query(`UPDATE BMI SET isHidden = true Where patientId = ${patientId}`, (err, res) => {
+    sql.query(`UPDATE BMI SET isHidden = true Where patientId = patientId = ?`, [patientId],  (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);

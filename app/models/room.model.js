@@ -33,7 +33,7 @@ Room.create = (newRoom, result) => {
 };
 
 Room.findById = (roomId, result) => {
-  sql.query(`SELECT * FROM room WHERE id = ${roomId}`, (err, res) => {
+  sql.query(`SELECT * FROM room WHERE id = "${roomId}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);

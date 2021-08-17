@@ -63,7 +63,7 @@ HeartBeat.getById = (id, result) =>{
 }
 
 HeartBeat.getByPatientId = (patientId, result) =>{
-    sql.query(`select * from HeartBeat where patientId = ${patientId}`, (err, res) =>{
+    sql.query(`select * from HeartBeat where patientId = "${patientId}"`, (err, res) =>{
         if(err){
             console.log("err: "+ err);
             result(err, null);
@@ -71,7 +71,7 @@ HeartBeat.getByPatientId = (patientId, result) =>{
         }
 
         if(res.length){
-            console.log(`HeartBeat find by patientId: ${patientId} ` + res);
+            console.log(`HeartBeat find by patientId: "${patientId}"` + res);
             result(null, res);
             return;
         }
@@ -95,7 +95,7 @@ HeartBeat.getAll = result =>{
 }
 
 HeartBeat.remove = (id, result) =>{
-    sql.query(`Update HeartBeat set isHidden = true where id = ${id}`, (err, res) =>{
+    sql.query(`Update HeartBeat set isHidden = true where id = "${id}"`, (err, res) =>{
         if(err){
             console.log("err: "+ err);
             result(err, null);
@@ -115,7 +115,7 @@ HeartBeat.remove = (id, result) =>{
 }
 
 HeartBeat.removeByPatientId = (patientId, result) =>{
-    sql.query(`Update HeartBeat set isHidden = true where patientId = ${patientId}`, (err, res) =>{
+    sql.query(`Update HeartBeat set isHidden = true where patientId = patientId = ?`, [patientId],  (err, res) =>{
         if(err){
             console.log("err: "+ err);
             result(err, null);
