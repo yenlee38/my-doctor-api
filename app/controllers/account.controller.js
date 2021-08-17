@@ -267,11 +267,11 @@ exports.exist = (req, res) =>{
     if(err){
       if(err.kind == "not_found") 
       res.status(404).json({
-        message: "Not found Account by id " + req.params.accountId,
+        message: "Not found Account by usernamw " + req.params.username,
         count:0
       })
       else res.status(500).json({
-        message: err.message || "Some thing was wrong when find Account by id " + req.params.accountId,
+        message: err.message || "Some thing was wrong when find Account by username " + req.params.username,
         count:0
       })
       return;
