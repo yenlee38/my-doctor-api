@@ -263,7 +263,7 @@ exports.findById = (req, res) =>{
 }
 
 exports.exist = (req, res) =>{
-  Account.getById(req.params.username, (err, data) =>{
+  Account.getByUsername(req.params.username, (err, data) =>{
     if(err){
       if(err.kind == "not_found") 
       res.status(404).json({
