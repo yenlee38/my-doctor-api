@@ -13,6 +13,7 @@ exports.signout = (req, res) => {}
 
 exports.findAll = (req, res) =>{}
 exports.findById = (req, res) =>{}
+exports.exist = (req, res) => {}
 exports.create = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -258,6 +259,26 @@ exports.findById = (req, res) =>{
 
     res.json({account:data,
     message:"Account find by id!", count:1});
+  })
+}
+
+exports.exist = (req, res) =>{
+  Account.getById(req.params.username, (err, data) =>{
+    if(err){
+      if(err.kind == "not_found") 
+      res.status(404).json({
+        message: "Not found Account by id " + req.params.accountId,
+        count:0
+      })
+      else res.status(500).json({
+        message: err.message || "Some thing was wrong when find Account by id " + req.params.accountId,
+        count:0
+      })
+      return;
+    }
+
+    res.json({
+    message:"Account find by username!", count:data});
   })
 }
 

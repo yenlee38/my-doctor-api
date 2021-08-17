@@ -4,10 +4,16 @@ const {v4: uuidv4} = require('uuid');
 exports.findAll = (req, res) => {
   Doctor.getAll((err, data) => {
     if (err)
-      res.status(500).send({
+      res.status(500).json({
         message: err.message || "Some error occurred while retrieving doctors.",
+        doctor: null,
+        count: 0
       });
-    else res.send(data);
+    else res.json({
+      count: data.length,
+      doctor: data,
+      message: "Get all list doctor!"
+    });
   });
 };
 
@@ -15,10 +21,16 @@ exports.findAll = (req, res) => {
 exports.filterDept = (req, res) => {
   Doctor.filterByDept(req.params.department, (err, data) => {
     if (err)
-      res.status(500).send({
+      res.status(500).json({
         message: err.message || "Some error occurred while retrieving doctors.",
+        doctor: null,
+        count: 0
       });
-    else res.send(data);
+    else res.json({
+      message: "Find doctor by Department!",
+        count: data.length,
+        doctor: data
+    });
   });
 };
 
@@ -28,8 +40,14 @@ exports.filterName = (req, res) => {
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving doctors.",
+        doctor: null,
+        count: 0
       });
-    else res.send(data);
+    else res.json({
+      message: "Find doctor by Name!",
+      count: data.length,
+      doctor: data
+    });
   });
 };
 
@@ -38,15 +56,23 @@ exports.findOne = (req, res) => {
   Doctor.findById(req.params.doctorId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
+        res.status(404).json({
           message: `Not found Doctor with id ${req.params.doctorId}.`,
+          doctor: null,
+          count: 0
         });
       } else {
-        res.status(500).send({
+        res.status(500).json({
           message: "Error retrieving Doctor with id " + req.params.doctorId,
+          doctor: null,
+          count: 0
         });
       }
-    } else res.send(data);
+    } else res.json({
+      message: "Find doctor by Id!",
+      count: 1,
+      doctor: data
+    });
   });
 };
 
@@ -63,12 +89,20 @@ exports.update = (req, res) => {
       if (err.kind === "not_found") {
         res.status(404).send({
           message: `Not found Doctor with id ${req.params.doctorId}.`,
+          doctor: null,
+          count: 0
         });
       } else {
         res.status(500).send({
           message: "Error updating Doctor with id " + req.params.doctorId,
+          doctor: null,
+          count: 0
         });
       }
-    } else res.send(data);
+    } else res.json({
+      message: "Updated doctor !",
+      count: 1,
+      doctor: new Doctor(req.body)
+    });
   });
 };

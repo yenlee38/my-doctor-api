@@ -37,7 +37,7 @@ Emotion.getAll = result => {
 } 
 
 Emotion.findById = (emotionId, result) => {
-    sql.query(`SELECT * FROM Emotion WHERE id = ${emotionId} and isHidden = false`, (err, res) => {
+    sql.query(`SELECT * FROM Emotion WHERE id = ? and isHidden = false`,[emotionId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -56,7 +56,7 @@ Emotion.findById = (emotionId, result) => {
   };
 
   Emotion.findByPatientId = (patientId, result) => {
-    sql.query(`SELECT * FROM Emotion WHERE patientId = ${patientId} and isHidden = false`, (err, res) => {
+    sql.query(`SELECT * FROM Emotion WHERE patientId = ? and isHidden = false`,[patientId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -132,8 +132,7 @@ Emotion.findById = (emotionId, result) => {
   };
 
   Emotion.removeAllByPatientId = (patientId, result) => {
-    console.log("patient")
-    sql.query(`UPDATE Emotion SET isHidden = true Where patientId = ${patientId}`, (err, res) => {
+    sql.query(`UPDATE Emotion SET isHidden = true Where patientId = ?`, [patientId], (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
