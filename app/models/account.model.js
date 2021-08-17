@@ -168,4 +168,21 @@ Account.getById = (id, result) =>{
   )
 }
 
+Account.getByUsername = (username, result) =>{
+  sql.query("Select * from Account Where username = ?", [username], (err, res) =>{
+    if(err){
+      result(err, null);
+      return;
+    }
+    
+    if(res.length){
+      result(null, 0);
+      return;
+    }
+    
+    result({kind:"not_found"}, null);
+  }
+  )
+}
+
 module.exports = Account;
