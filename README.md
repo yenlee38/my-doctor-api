@@ -7,18 +7,7 @@ Link server: https://still-wave-21655.herokuapp.com/
 
 - Install for run:
 	
-npm install express mysql body-parser --save
-	
-npm install dotenv
-	
-npm install jsonwebtoken
-	
-npm install express-jwt
-
-npm install uuid
-
-npm install cors
-
+npm install
 
 
 - Create file .env :
