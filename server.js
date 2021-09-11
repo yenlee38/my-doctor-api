@@ -36,4 +36,4 @@ require("./app/routes/address.routes.js")(app);
 require("./app/routes/bmi.routes.js")(app);
 require("./app/routes/emotion.routes.js")(app);
 require("./app/routes/heart-beat.routes.js")(app);
-
+require("./app/routes/medical-record.routes")(app);

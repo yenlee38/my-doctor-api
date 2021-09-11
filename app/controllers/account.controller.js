@@ -282,3 +282,51 @@ exports.exist = (req, res) =>{
   })
 }
 
+exports.changePassword = (req, res) =>{
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+      count:0,
+      account: null
+    });
+    return;
+  }
+
+  Account.getSalt(req.body.username, (err, data) =>{
+    let salt = data;
+    if(salt != ""){
+      // Get a Account
+    const account = new Account({
+      id: req.params.accountId,
+      username: req.body.username,
+      password: Account.hashPassword(req.body.newPassword, salt),
+      role: req.body.role,
+  
+    });
+  
+    Account.changePassword(account, (err, data) =>{
+      if(err){
+        if(err.kind == "not_found"){
+          res.status(404).json({
+            message: "Not found account by id: " + account.id,
+            count: 0,
+            account: null
+          })
+        }else{
+          res.status(500).json({
+            message: err.message || "Some thing was wrong when find Account by id " + account.id
+          })
+        }
+      }
+  
+      res.status(200).json({
+        message: "Change password success!",
+        count: 1,
+        account: data
+      })
+    })
+  }})
+
+ 
+}
+

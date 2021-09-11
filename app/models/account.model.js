@@ -73,8 +73,8 @@ Account.signin = (username, password, result) => {
 
 Account.updatePasswordByUsername = (username, account, result) => {
   sql.query(
-    "UPDATE account SET password = ? WHERE username = ?",
-    [account.password, username],
+    "UPDATE account SET password = ?, updateAt = ?, WHERE username = ?",
+    [account.password, new Date(), username],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -183,6 +183,22 @@ Account.getByUsername = (username, result) =>{
     result({kind:"not_found"}, null);
   }
   )
+}
+
+Account.changePassword = (account, result) =>{
+  sql.query("Update Account set password = ?, updatedAt = ? where id = ?", [account.password, new Date(), account.id], (err, res) =>{
+    if(err){
+      result(err, null);
+      return;
+    }
+
+    if(res.affectedRows == 0){
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    result(null, {...account});
+  })
 }
 
 module.exports = Account;

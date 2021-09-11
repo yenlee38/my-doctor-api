@@ -10,5 +10,6 @@ module.exports = (app) => {
   app.put("/accounts/disable/:accountId", accounts.disable);
   app.get("/accounts",requireSignin, accounts.findAll);
   app.get("/accounts/:accountId",requireSignin, accounts.findById);
-  app.get("/accounts/:username/username", accounts.exist)
+  app.get("/accounts/:username/username", accounts.exist);
+  app.put("/accounts/:accountId/changePassword", accounts.changePassword);
 };

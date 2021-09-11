@@ -13,6 +13,26 @@ const Patient = function (patient) {
   this.updatedAt = patient.updatedAt;
 };
 
+Patient.updateAvatar = (patient, result) =>{
+  sql.query("Update patient set avatar = ?, updatedAt = ?, where id = ?", [patient.avatar, new Date(), patient.id], (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found patient with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated patient: ", { id: patient.id });
+      result(null, { id: patient.id });
+    }
+  );
+}
+
 Patient.create = (patient, result) => {
   sql.query("INSERT INTO Patient set ?", patient, (err, res) => {
     if (err) {
@@ -58,8 +78,8 @@ Patient.updateById = (id, patient, result) => {
     return true;
   });
   sql.query(
-    "UPDATE patient SET avatar = ?, fullName = ?, birthDate = ?, address = ? WHERE id = ?",
-    [patient.avatar, patient.fullName, patient.birthDate, patient.address, id],
+    "UPDATE patient SET avatar = ?, fullName = ?, birthDate = ?, address = ?, updatedAt = ?, WHERE id = ?",
+    [patient.avatar, patient.fullName, patient.birthDate, patient.address, new Date(), id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
