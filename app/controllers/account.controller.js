@@ -44,7 +44,11 @@ exports.create = (req, res) => {
             count:0,
             account: null
         });
-      else res.json({count: 1, message: "Sign up success!", account: account});
+      else {
+        const token = jwt.sign({_id: data._id}, process.env.JWT_SECRET);
+        // persist the token as 't' in cookie with expiry date
+        res.cookie ('t', token, {expire: new Date() + 86400})
+        return res.json ({token: token, count:1, message: "Sign up success!", account: data});}
     });
   };
 
