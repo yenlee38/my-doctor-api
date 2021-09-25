@@ -145,31 +145,43 @@ exports.updatePassword = (req, res) => {
     });
   }
 
-  Account.updatePasswordByUsername(
-    req.params.username,
-    new Account(req.body),
-    (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).json({
-            message: `Not found Account with username ${req.params.accountId}.`,
-            count:0,
-            account: null
-          });
-        } else {
-          res.status(500).json({
-            message:
-              "Error updating Account with username " + req.params.accountId,
+  Account.getSalt(req.body.username, (err, data) =>{
+    let salt = data;
+    if(salt != ""){
+      // Get a Account
+    const account = new Account({
+      username: req.body.username,
+      password: Account.hashPassword(req.body.password, salt),
+      role: req.body.role,
+  
+    });
+  
+    Account.updatePasswordByUsername(
+      req.body.username,
+      account,
+      (err, data) => {
+        if (err) {
+          if (err.kind === "not_found") {
+            res.status(404).json({
+              message: `Not found Account with username ${req.body.username}.`,
               count:0,
-            account: null
+              account: null
+            });
+          } else {
+            res.status(500).json({
+              message:
+                "Error updating Account with username " + req.body.username,
+                count:0,
+              account: null
+            });
+          }
+        } else res.json({count:1,
+            message: "Update password success!",
+            account: data
           });
-        }
-      } else res.json({count:1,
-          message: "Update password success!",
-          account: data
-        });
-    }
-  );
+      }
+    );
+  }})
 };
 
 exports.disable = (req, res) => {

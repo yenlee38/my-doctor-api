@@ -6,7 +6,7 @@ module.exports = (app) => {
   app.get("/accounts/signout", accounts.signout);
 
   // Update a Account with accountId
-  app.put("/accounts/forgotPass/:username", accounts.updatePassword);
+  app.put("/accounts/forgotPass", accounts.updatePassword);
   app.put("/accounts/disable/:accountId", accounts.disable);
   app.get("/accounts",requireSignin, accounts.findAll);
   app.get("/accounts/:accountId",requireSignin, accounts.findById);
