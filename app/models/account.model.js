@@ -73,7 +73,7 @@ Account.signin = (username, password, result) => {
 
 Account.updatePasswordByUsername = (username, account, result) => {
   sql.query(
-    "UPDATE account SET password = ?, updateAt = ?, WHERE username = ?",
+    "UPDATE account SET password = ?, updatedAt = ? WHERE username = ?",
     [account.password, new Date(), username],
     (err, res) => {
       if (err) {
