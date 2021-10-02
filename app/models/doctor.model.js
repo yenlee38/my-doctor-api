@@ -15,7 +15,7 @@ const Doctor = function (doctor) {
 };
 
 Doctor.create = (doctor, result) => {
-  sql.query(`INSERT INTO doctor set ?`,doctor, (err, res) => {
+  sql.query(`INSERT INTO doctor set ?`, doctor, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -23,7 +23,7 @@ Doctor.create = (doctor, result) => {
     }
 
     console.log("created doctor: ");
-    result(null, {...doctor});
+    result(null, { ...doctor });
   });
 };
 
@@ -90,7 +90,7 @@ Doctor.getAll = (result) => {
 
 Doctor.updateById = (id, doctor, result) => {
   Object.values(TYPES.DEPARTMENT).every((element) => {
-    if (element == doctor.department) {
+    if (element === doctor.department) {
       sql.query(
         "UPDATE doctor SET department = ? WHERE id = ?",
         [doctor.department, id],
@@ -101,7 +101,7 @@ Doctor.updateById = (id, doctor, result) => {
     return true;
   });
   Object.values(TYPES.GENDER).every((element) => {
-    if (element == doctor.gender) {
+    if (element === doctor.gender) {
       sql.query(
         "UPDATE doctor SET gender = ? WHERE id = ?",
         [doctor.gender, id],

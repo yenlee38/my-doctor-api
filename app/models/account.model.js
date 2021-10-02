@@ -12,7 +12,7 @@ const Account = function (account) {
   this.createdAt = account.createdAt;
 };
 
-Account.create = (newAccount, result) => {
+Account.signup = (newAccount, result) => {
   sql.query("INSERT INTO Account SET ?", newAccount, (err, res) => {
     if (err) {
       console.log("error insert account: ", err);
@@ -26,8 +26,8 @@ Account.create = (newAccount, result) => {
         const doctor = new Doctor({
           id: newAccount.id,
           createdAt: new Date(),
-          updatedAt: new Date()
-        })
+          updatedAt: new Date(),
+        });
         Doctor.create(doctor, (err, data) => {});
         break;
       case "patient":
@@ -35,8 +35,8 @@ Account.create = (newAccount, result) => {
         const patient = new Patient({
           id: newAccount.id,
           createdAt: new Date(),
-          updatedAt: new Date()
-        })
+          updatedAt: new Date(),
+        });
         Patient.create(patient, (err, data) => {});
         break;
       default:
@@ -71,7 +71,7 @@ Account.signin = (username, password, result) => {
   );
 };
 
-Account.updatePasswordByUsername = (username, account, result) => {
+Account.forgotPass = (username, account, result) => {
   sql.query(
     "UPDATE account SET password = ?, updatedAt = ? WHERE username = ?",
     [account.password, new Date(), username],
@@ -137,68 +137,54 @@ Account.getSalt = (username, result) => {
       result({ kind: "not_found" }, "");
     }
   );
-}
+};
 
-Account.getAll  = result =>{
-  sql.query("Select * from Account Where isHidden = false", (err, res) =>{
-    if(err){
+Account.getAll = (result) => {
+  sql.query("Select * from Account Where isHidden = false", (err, res) => {
+    if (err) {
       console.log("Err: " + err);
       result(err, null);
       return;
     }
 
     result(null, res);
-  })
-}
+  });
+};
 
-Account.getById = (id, result) =>{
-  sql.query("Select * from Account Where id = ?", [id], (err, res) =>{
-    if(err){
+Account.getById = (id, result) => {
+  sql.query("Select * from Account Where id = ?", [id], (err, res) => {
+    if (err) {
       result(err, null);
       return;
     }
-    
-    if(res.length){
+
+    if (res.length) {
       result(null, res[0]);
       return;
     }
-    
-    result({kind:"not_found"}, null);
-  }
-  )
-}
 
-Account.getByUsername = (username, result) =>{
-  sql.query("Select * from Account Where username = ?", [username], (err, res) =>{
-    if(err){
-      result(err, null);
-      return;
-    }
-    
-    if(res.length){
-      result(null, 1);
-      return;
-    }
-    
-    result({kind:"not_found"}, null);
-  }
-  )
-}
+    result({ kind: "not_found" }, null);
+  });
+};
 
-Account.changePassword = (account, result) =>{
-  sql.query("Update Account set password = ?, updatedAt = ? where id = ?", [account.password, new Date(), account.id], (err, res) =>{
-    if(err){
-      result(err, null);
-      return;
-    }
+Account.changePassword = (password, account, result) => {
+  sql.query(
+    "Update Account set password = ?, updatedAt = ? where id = ? and password = ?",
+    [password, new Date(), account.id, account.password],
+    (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
 
-    if(res.affectedRows == 0){
-      result({ kind: "not_found" }, null);
-      return;
-    }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
 
-    result(null, {...account});
-  })
-}
+      result(null, { ...account });
+    }
+  );
+};
 
 module.exports = Account;
