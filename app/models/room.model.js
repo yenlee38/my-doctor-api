@@ -1,25 +1,14 @@
 const sql = require("./db.js");
-const department = require("../types/index.js").department;
 
 const Room = function (room) {
   this.id = room.id;
   this.name = room.name;
-  this.department = room.department;
+  this.departmentId = room.departmentId;
   this.createdAt = room.createdAt;
   this.updatedAt = room.updatedAt;
 };
 
 Room.create = (newRoom, result) => {
-  if (
-    Object.values(department).every((element) => {
-      if (element == newRoom.department) {
-        return false;
-      }
-      return true;
-    })
-  ) {
-    newRoom.department = null;
-  }
   sql.query("INSERT INTO room SET ?", newRoom, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -52,20 +41,9 @@ Room.findById = (roomId, result) => {
 };
 
 Room.updateById = (id, room, result) => {
-  Object.values(department).every((element) => {
-    if (element == room.department) {
-      sql.query(
-        "UPDATE room SET department = ? WHERE id = ?",
-        [room.department, id],
-        (err, res) => {}
-      );
-      return false;
-    }
-    return true;
-  });
   sql.query(
-    "UPDATE room SET name = ? WHERE id = ?",
-    [room.name, id],
+    "UPDATE room SET name = ?, departmentId = ? WHERE id = ?",
+    [room.name, room.departmentId, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

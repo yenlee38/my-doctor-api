@@ -1,5 +1,5 @@
 const Room = require("../models/room.model.js");
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 // Create and Save a new Room
 exports.create = (req, res) => {
   if (!req.body) {
@@ -11,7 +11,7 @@ exports.create = (req, res) => {
   const room = new Room({
     id: uuidv4(),
     name: req.body.name,
-    department: req.body.department,
+    departmentId: req.body.departmentId,
   });
 
   // Save Room in the database
@@ -20,13 +20,14 @@ exports.create = (req, res) => {
       res.status(500).json({
         message: err.message || "Some error occurred while creating the Room.",
         room: null,
-        count:0
+        count: 0,
       });
-    else res.json({
-      message: "Created at room!",
-      count: 1,
-      room: room
-    });
+    else
+      res.json({
+        message: "Created at room!",
+        count: 1,
+        room: room,
+      });
   });
 };
 
@@ -38,20 +39,21 @@ exports.findOne = (req, res) => {
         res.status(404).json({
           message: `Not found Room with id ${req.params.roomId}.`,
           room: null,
-          count:0
+          count: 0,
         });
       } else {
         res.status(500).json({
           message: "Error retrieving Room with id " + req.params.roomId,
           room: null,
-          count:0
+          count: 0,
         });
       }
-    } else res.json({
-      message: "Find one room!",
-      count: 1,
-      room: data  
-    });
+    } else
+      res.json({
+        message: "Find one room!",
+        count: 1,
+        room: data,
+      });
   });
 };
 
@@ -70,19 +72,20 @@ exports.update = (req, res) => {
         res.status(404).json({
           message: `Not found Room with id ${req.params.roomId}.`,
           room: null,
-          count:0
+          count: 0,
         });
       } else {
         res.status(500).json({
           message: "Error updating Room with id " + req.params.roomId,
           room: null,
-          count:0
+          count: 0,
         });
       }
-    } else res.json({
-      message: "Updated at room!",
-      count: 1,
-      room: new Room(req.body)      
-    });
+    } else
+      res.json({
+        message: "Updated at room!",
+        count: 1,
+        room: new Room(req.body),
+      });
   });
 };

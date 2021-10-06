@@ -1,17 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors")
+const cors = require("cors");
 const app = express();
-require("dotenv").config();   
+require("dotenv").config();
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
 
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors())
-
-
+app.use(cors());
 
 // simple route
 app.get("/", (req, res) => {
@@ -37,3 +35,5 @@ require("./app/routes/bmi.routes.js")(app);
 require("./app/routes/emotion.routes.js")(app);
 require("./app/routes/heart-beat.routes.js")(app);
 require("./app/routes/medical-record.routes")(app);
+require("./app/routes/department.routes")(app);
+require("./app/routes/position.routes")(app);
