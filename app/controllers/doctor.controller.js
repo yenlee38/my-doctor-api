@@ -20,7 +20,7 @@ exports.findAll = (req, res) => {
 
 // Find Doctors with a department
 exports.filterDept = (req, res) => {
-  Doctor.filterByDept(req.params.departmentId, (err, data) => {
+  Doctor.filterByDept(req.params.department, (err, data) => {
     if (err)
       res.status(500).json({
         message: err.message || "Some error occurred while retrieving doctors.",

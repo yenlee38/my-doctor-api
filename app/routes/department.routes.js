@@ -5,7 +5,7 @@ module.exports = (app) => {
   app.post("/department", department.create);
 
   // Retrieve a single Room with departmentId
-  app.get("/department/:departmentId", department.findOne);
+  app.get("/department/:name", department.findOne);
 
   // Update a Room with departmentId
   app.put("/department/:departmentId", department.update);

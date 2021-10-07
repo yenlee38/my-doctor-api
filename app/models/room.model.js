@@ -1,9 +1,10 @@
 const sql = require("./db.js");
+const Department = require("./department.model.js");
 
 const Room = function (room) {
   this.id = room.id;
   this.name = room.name;
-  this.departmentId = room.departmentId;
+  this.department = room.department;
   this.createdAt = room.createdAt;
   this.updatedAt = room.updatedAt;
 };
@@ -21,8 +22,8 @@ Room.create = (newRoom, result) => {
   });
 };
 
-Room.findById = (roomId, result) => {
-  sql.query(`SELECT * FROM room WHERE id = "${roomId}"`, (err, res) => {
+Room.findByName = (name, result) => {
+  sql.query(`SELECT * FROM room WHERE name = "${name}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -42,8 +43,8 @@ Room.findById = (roomId, result) => {
 
 Room.updateById = (id, room, result) => {
   sql.query(
-    "UPDATE room SET name = ?, departmentId = ? WHERE id = ?",
-    [room.name, room.departmentId, id],
+    "UPDATE room SET name = ?, department = ?, updatedAt = ? WHERE id = ?",
+    [room.name, room.department, new Date(), id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

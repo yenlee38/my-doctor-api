@@ -72,8 +72,8 @@ Patient.updateById = (id, patient, result) => {
   Object.values(gender).every((element) => {
     if (element === patient.gender) {
       sql.query(
-        "UPDATE patient SET gender = ? WHERE id = ?",
-        [patient.gender, id],
+        "UPDATE patient SET gender = ?, updatedAt = ? WHERE id = ?",
+        [patient.gender, new Date(), id],
         (err, res) => {}
       );
       return false;

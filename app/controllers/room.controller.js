@@ -11,7 +11,9 @@ exports.create = (req, res) => {
   const room = new Room({
     id: uuidv4(),
     name: req.body.name,
-    departmentId: req.body.departmentId,
+    department: req.body.department,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
 
   // Save Room in the database
@@ -33,17 +35,17 @@ exports.create = (req, res) => {
 
 // Find a single Room with a roomId
 exports.findOne = (req, res) => {
-  Room.findById(req.params.roomId, (err, data) => {
+  Room.findByName(req.params.name, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).json({
-          message: `Not found Room with id ${req.params.roomId}.`,
+          message: `Not found Room with id ${req.params.name}.`,
           room: null,
           count: 0,
         });
       } else {
         res.status(500).json({
-          message: "Error retrieving Room with id " + req.params.roomId,
+          message: "Error retrieving Room with id " + req.params.name,
           room: null,
           count: 0,
         });

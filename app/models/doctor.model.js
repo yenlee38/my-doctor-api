@@ -5,7 +5,7 @@ const Doctor = function (doctor) {
   this.id = doctor.id;
   this.avatar = doctor.avatar;
   this.fullname = doctor.fullname;
-  this.departmentId = doctor.departmentId;
+  this.department = doctor.department;
   this.phone = doctor.phone;
   this.education = doctor.education;
   this.gender = doctor.gender;
@@ -47,24 +47,21 @@ Doctor.findById = (doctorId, result) => {
 };
 
 Doctor.filterByDept = (dept, result) => {
-  sql.query(
-    `SELECT * FROM doctor WHERE departmentId = "${dept}"`,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      console.log("doctors: ", res);
-      result(null, res);
+  sql.query(`SELECT * FROM doctor WHERE department = "${dept}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
     }
-  );
+
+    console.log("doctors: ", res);
+    result(null, res);
+  });
 };
 
 Doctor.filterByName = (name, result) => {
   sql.query(
-    `SELECT * FROM doctor WHERE fullName like "%${name}%"`,
+    `SELECT * FROM doctor WHERE fullName like "%${name}%" and department ='Xét nghiệm'`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -79,16 +76,19 @@ Doctor.filterByName = (name, result) => {
 };
 
 Doctor.getAll = (result) => {
-  sql.query("SELECT * FROM doctor", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+  sql.query(
+    "SELECT * FROM doctor where department != 'Xét nghiệm'",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
 
-    console.log("doctors: ", res);
-    result(null, res);
-  });
+      console.log("doctors: ", res);
+      result(null, res);
+    }
+  );
 };
 
 Doctor.updateById = (id, doctor, result) => {
@@ -104,14 +104,15 @@ Doctor.updateById = (id, doctor, result) => {
     return true;
   });
   sql.query(
-    "UPDATE doctor SET avatar = ?, fullname = ?, birthDate = ?, education = ?, phone = ?, departmentId = ? WHERE id = ?",
+    "UPDATE doctor SET avatar = ?, fullname = ?, birthDate = ?, education = ?, phone = ?, department = ?, updatedAt = ? WHERE id = ?",
     [
       doctor.avatar,
       doctor.fullname,
       doctor.birthDate,
       doctor.education,
       doctor.phone,
-      doctor.departmentId,
+      doctor.department,
+      new Date(),
       id,
     ],
     (err, res) => {

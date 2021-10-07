@@ -17,6 +17,8 @@ exports.create = (req, res) => {
     number: req.body.number,
     date: req.body.date,
     state: NUMBER_STATE.NOT_USE,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
 
   // Save Position in the database

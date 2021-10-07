@@ -12,6 +12,8 @@ exports.create = (req, res) => {
     id: uuidv4(),
     name: req.body.name,
     time: req.body.time,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
 
   // Save Department in the database
@@ -34,18 +36,17 @@ exports.create = (req, res) => {
 
 // Find a single Department with a departmentId
 exports.findOne = (req, res) => {
-  Department.findById(req.params.departmentId, (err, data) => {
+  Department.findByName(req.params.name, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).json({
-          message: `Not found Department with id ${req.params.departmentId}.`,
+          message: `Not found Department with id ${req.params.name}.`,
           department: null,
           count: 0,
         });
       } else {
         res.status(500).json({
-          message:
-            "Error retrieving Department with id " + req.params.departmentId,
+          message: "Error retrieving Department with id " + req.params.name,
           department: null,
           count: 0,
         });

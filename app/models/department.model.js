@@ -20,32 +20,29 @@ Department.create = (newDepartment, result) => {
   });
 };
 
-Department.findById = (departmentId, result) => {
-  sql.query(
-    `SELECT * FROM department WHERE id = "${departmentId}"`,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (res.length) {
-        console.log("found department: ", res[0]);
-        result(null, res[0]);
-        return;
-      }
-
-      // not found department with the id
-      result({ kind: "not_found" }, null);
+Department.findByName = (name, result) => {
+  sql.query(`SELECT * FROM department WHERE name = "${name}"`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
     }
-  );
+
+    if (res.length) {
+      console.log("found department: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found department with the id
+    result({ kind: "not_found" }, null);
+  });
 };
 
 Department.updateById = (id, department, result) => {
   sql.query(
-    "UPDATE department SET name = ?, time = ? WHERE id = ?",
-    [department.name, department.time, id],
+    "UPDATE department SET name = ?, time = ?, updatedAt = ? WHERE id = ?",
+    [department.name, department.time, new Date(), id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

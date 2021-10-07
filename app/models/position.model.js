@@ -26,8 +26,8 @@ Position.create = (newPosition, result) => {
 
 Position.setState = (id, state, result) => {
   sql.query(
-    "UPDATE position SET state = ? WHERE id = ?",
-    [state, id],
+    "UPDATE position SET state = ?, updatedAt = ? WHERE id = ?",
+    [state, new Date(), id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
