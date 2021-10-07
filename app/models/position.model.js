@@ -1,19 +1,19 @@
 const sql = require("./db.js");
 const { NUMBER_STATE } = require("../types/index.js");
 
-const Position = function (number) {
-  this.id = number.id;
-  this.patientId = number.patientId;
-  this.roomId = number.roomId;
-  this.number = number.number;
-  this.date = number.date;
-  this.state = number.state;
-  this.createdAt = number.createdAt;
-  this.updatedAt = number.updatedAt;
+const Position = function (position) {
+  this.id = position.id;
+  this.patientId = position.patientId;
+  this.roomId = position.roomId;
+  this.number = position.number;
+  this.date = position.date;
+  this.state = position.state;
+  this.createdAt = position.createdAt;
+  this.updatedAt = position.updatedAt;
 };
 
 Position.create = (newPosition, result) => {
-  sql.query("INSERT INTO position SET ?", newPosition, (err, res) => {
+  sql.query("INSERT INTO number SET ?", newPosition, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -26,7 +26,7 @@ Position.create = (newPosition, result) => {
 
 Position.setState = (id, state, result) => {
   sql.query(
-    "UPDATE position SET state = ?, updatedAt = ? WHERE id = ?",
+    "UPDATE number SET state = ?, updatedAt = ? WHERE id = ?",
     [state, new Date(), id],
     (err, res) => {
       if (err) {
@@ -49,7 +49,7 @@ Position.setState = (id, state, result) => {
 
 Position.getAll = (result) => {
   sql.query(
-    "SELECT * FROM position where state = " + NUMBER_STATE.NOT_USE,
+    "SELECT * FROM number where state = " + NUMBER_STATE.NOT_USE,
     (err, res) => {
       if (err) {
         console.log("error: ", err);

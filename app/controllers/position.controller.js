@@ -12,7 +12,7 @@ exports.create = (req, res) => {
   }
   const position = new Position({
     id: uuidv4(),
-    patientId: number.patientId,
+    patientId: req.body.patientId,
     roomId: req.body.roomId,
     number: req.body.number,
     date: req.body.date,
