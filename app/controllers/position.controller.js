@@ -16,7 +16,7 @@ exports.create = (req, res) => {
     room: req.body.room,
     number: req.body.number,
     date: req.body.date,
-    state: NUMBER_STATE.NOT_USE,
+    state: NUMBER_STATE.NOT_USE.toString(),
     createdAt: new Date(),
     updatedAt: new Date(),
   });

@@ -49,7 +49,7 @@ Position.setState = (id, state, result) => {
 
 Position.getAll = (result) => {
   sql.query(
-    "SELECT * FROM position where state = " + NUMBER_STATE.NOT_USE,
+    `SELECT * FROM position where state = "${NUMBER_STATE.NOT_USE}"`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
