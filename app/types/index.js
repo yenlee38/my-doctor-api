@@ -26,7 +26,7 @@ const DEPARTMENT = {
 const NUMBER_STATE = {
   USED: "đã khám",
   NOT_USE: "chưa khám",
-  EXPIRED: "quá hạn",
+  CANCEL: "hủy",
 };
 
 const EMOTION = {
