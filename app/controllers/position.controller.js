@@ -75,6 +75,28 @@ exports.getMaxPosition = (req, res) => {
   });
 };
 
+exports.exist = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.exist(new Position(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({ message: `Not found position`, count: 0 });
+      } else {
+        res.status(500).json({
+          message: "Error retrieving position",
+          count: 0,
+        });
+      }
+    } else res.json({ message: "Find one position!", count: 1 });
+  });
+};
+
 exports.cancel = (req, res) => {
   Position.setState(req.params.positionId, NUMBER_STATE.CANCEL, (err, data) => {
     if (err) {

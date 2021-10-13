@@ -85,4 +85,26 @@ Position.getMaxPosition = (position, result) => {
   );
 };
 
+Position.exist = (position, result) => {
+  sql.query(
+    "SELECT * FROM position where room = ? and date = ? and number = ?",
+    [position.room, position.date, position.number],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found position: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
 module.exports = Position;
