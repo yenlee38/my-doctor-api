@@ -167,7 +167,7 @@ Account.getById = (id, result) => {
   });
 };
 
-Account.changePassword = (password, account, result) => {
+Account.changePass = (password, account, result) => {
   sql.query(
     "Update Account set password = ?, updatedAt = ? where id = ? and password = ?",
     [password, new Date(), account.id, account.password],

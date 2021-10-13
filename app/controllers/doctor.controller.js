@@ -7,11 +7,9 @@ exports.findAll = (req, res) => {
       res.status(500).json({
         message: err.message || "Some error occurred while retrieving doctors.",
         doctor: null,
-        count: 0,
       });
     else
       res.json({
-        count: data.length,
         doctor: data,
         message: "Get all list doctor!",
       });
@@ -25,12 +23,10 @@ exports.filterDept = (req, res) => {
       res.status(500).json({
         message: err.message || "Some error occurred while retrieving doctors.",
         doctor: null,
-        count: 0,
       });
     else
       res.json({
         message: "Find doctor by Department!",
-        count: data.length,
         doctor: data,
       });
   });
@@ -43,12 +39,10 @@ exports.filterName = (req, res) => {
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving doctors.",
         doctor: null,
-        count: 0,
       });
     else
       res.json({
         message: "Find doctor by Name!",
-        count: data.length,
         doctor: data,
       });
   });
@@ -62,19 +56,16 @@ exports.findOne = (req, res) => {
         res.status(404).json({
           message: `Not found Doctor with id ${req.params.doctorId}.`,
           doctor: null,
-          count: 0,
         });
       } else {
         res.status(500).json({
           message: "Error retrieving Doctor with id " + req.params.doctorId,
           doctor: null,
-          count: 0,
         });
       }
     } else
       res.json({
         message: "Find doctor by Id!",
-        count: 1,
         doctor: data,
       });
   });

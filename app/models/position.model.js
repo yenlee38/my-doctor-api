@@ -75,8 +75,8 @@ Position.getMaxPosition = (position, result) => {
       }
 
       if (res.length) {
-        console.log("found position: ", res[0]);
-        result(null, res[0]);
+        console.log("found position: ", res[0].maxNumber);
+        result(null, res[0].maxNumber);
         return;
       }
 

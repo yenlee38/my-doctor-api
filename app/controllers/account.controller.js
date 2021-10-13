@@ -297,7 +297,7 @@ exports.exist = (req, res) => {
   });
 };
 
-exports.changePassword = (req, res) => {
+exports.changePass = (req, res) => {
   if (!req.body) {
     res.status(400).json({
       message: "Content can not be empty!",
@@ -315,7 +315,7 @@ exports.changePassword = (req, res) => {
         password: Account.hashPassword(req.body.oldPass, salt),
       });
 
-      Account.changePassword(
+      Account.changePass(
         Account.hashPassword(req.body.newPass, salt),
         account,
         (err, data) => {
@@ -323,8 +323,6 @@ exports.changePassword = (req, res) => {
             if (err.kind == "not_found") {
               res.status(404).json({
                 message: "Not found account by id: " + account.id,
-                count: 0,
-                account: null,
               });
             } else {
               res.status(500).json({
@@ -334,12 +332,7 @@ exports.changePassword = (req, res) => {
               });
             }
           }
-
-          res.status(200).json({
-            message: "Change password success!",
-            count: 1,
-            account: data,
-          });
+          res.status(200).json({ message: "Change password success!" });
         }
       );
     }

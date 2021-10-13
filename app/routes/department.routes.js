@@ -4,7 +4,4 @@ module.exports = (app) => {
   app.post("/department", department.create);
 
   app.get("/department/:name", department.findOne);
-  app.get("/department/:doctorId/time", department.getTime);
-
-  app.put("/department/time", department.setTime);
 };

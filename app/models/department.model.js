@@ -39,47 +39,4 @@ Department.findByName = (name, result) => {
   });
 };
 
-Department.getTime = (doctorId, result) => {
-  sql.query(
-    `SELECT time FROM department, doctor WHERE doctor.id = "${doctorId}" and doctor.department = department.name`,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-
-      if (res.length) {
-        console.log("found department: ", res[0]);
-        result(null, res[0]);
-        return;
-      }
-
-      result({ kind: "not_found" }, null);
-    }
-  );
-};
-
-Department.setTime = (department, result) => {
-  sql.query(
-    "UPDATE department SET time = ?, updatedAt = ? WHERE name = ?",
-    [department.time, new Date(), department.name],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated department: ", { department: department });
-      result(null, { department: department });
-    }
-  );
-};
-
 module.exports = Department;

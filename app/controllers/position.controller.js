@@ -28,12 +28,10 @@ exports.create = (req, res) => {
         message:
           err.message || "Some error occurred while creating the Position.",
         position: null,
-        count: 0,
       });
     else
       res.json({
         message: "Created at position!",
-        count: 1,
         position: position,
       });
   });
@@ -46,13 +44,11 @@ exports.findAllByPatient = (req, res) => {
         message:
           err.message || "Some error occurred while retrieving positions.",
         position: null,
-        count: 0,
       });
     else
       res.json({
-        count: data.length,
-        position: data,
         message: "Get all list position!",
+        position: data,
       });
   });
 };
@@ -68,11 +64,14 @@ exports.getMaxPosition = (req, res) => {
   Position.getMaxPosition(new Position(req.body), (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).json({ message: `Not found position` });
+        res.status(404).json({ message: `Not found position`, max: null });
       } else {
-        res.status(500).json({ message: "Error retrieving position" });
+        res.status(500).json({
+          message: "Error retrieving position",
+          max: null,
+        });
       }
-    } else res.json({ message: "Find one position!", data });
+    } else res.json({ message: "Find one position!", max: data });
   });
 };
 

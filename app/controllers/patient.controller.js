@@ -49,19 +49,16 @@ exports.findOne = (req, res) => {
       if (err.kind === "not_found") {
         res.status(404).json({
           message: `Not found Patient with id ${req.params.patientId}.`,
-          count: 0,
           patient: null,
         });
       } else {
         res.status(500).json({
           message: "Error retrieving Patient with id " + req.params.patientId,
-          count: 0,
           patient: null,
         });
       }
     } else
       res.json({
-        count: 1,
         message: "Find patient by id!",
         patient: data,
       });
