@@ -41,15 +41,15 @@ Position.setState = (id, state, result) => {
         return;
       }
 
-      console.log("updated position: ", { id: id });
-      result(null, { id: id });
+      console.log("updated position");
+      result(null);
     }
   );
 };
 
-Position.getAll = (result) => {
+Position.getPositionByPatient = (patientId, result) => {
   sql.query(
-    `SELECT * FROM position where state = "${NUMBER_STATE.NOT_USE}"`,
+    `SELECT * FROM position where patientId = "${patientId}" order by date`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -59,6 +59,28 @@ Position.getAll = (result) => {
 
       console.log("positions: ", res);
       result(null, res);
+    }
+  );
+};
+
+Position.getMaxPosition = (position, result) => {
+  sql.query(
+    "SELECT MAX(number) as maxNumber FROM position where room = ? and date = ? and state = ?",
+    [position.room, position.date, NUMBER_STATE.USED],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found position: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
     }
   );
 };

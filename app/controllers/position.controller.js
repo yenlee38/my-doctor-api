@@ -39,8 +39,8 @@ exports.create = (req, res) => {
   });
 };
 
-exports.findAll = (req, res) => {
-  Position.getAll((err, data) => {
+exports.findAllByPatient = (req, res) => {
+  Position.getPositionByPatient(req.params.patientId, (err, data) => {
     if (err)
       res.status(500).json({
         message:
@@ -54,6 +54,25 @@ exports.findAll = (req, res) => {
         position: data,
         message: "Get all list position!",
       });
+  });
+};
+
+exports.getMaxPosition = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.getMaxPosition(new Position(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({ message: `Not found position` });
+      } else {
+        res.status(500).json({ message: "Error retrieving position" });
+      }
+    } else res.json({ message: "Find one position!", data });
   });
 };
 

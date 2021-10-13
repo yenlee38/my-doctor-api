@@ -71,10 +71,10 @@ Account.signin = (username, password, result) => {
   );
 };
 
-Account.forgotPass = (username, account, result) => {
+Account.forgotPass = (account, result) => {
   sql.query(
     "UPDATE account SET password = ?, updatedAt = ? WHERE username = ?",
-    [account.password, new Date(), username],
+    [account.password, new Date(), account.username],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

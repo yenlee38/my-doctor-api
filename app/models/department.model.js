@@ -39,10 +39,31 @@ Department.findByName = (name, result) => {
   });
 };
 
-Department.updateById = (id, department, result) => {
+Department.getTime = (doctorId, result) => {
   sql.query(
-    "UPDATE department SET name = ?, time = ?, updatedAt = ? WHERE id = ?",
-    [department.name, department.time, new Date(), id],
+    `SELECT time FROM department, doctor WHERE doctor.id = "${doctorId}" and doctor.department = department.name`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        console.log("found department: ", res[0]);
+        result(null, res[0]);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
+Department.setTime = (department, result) => {
+  sql.query(
+    "UPDATE department SET time = ?, updatedAt = ? WHERE name = ?",
+    [department.time, new Date(), department.name],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -51,13 +72,12 @@ Department.updateById = (id, department, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found department with the id
         result({ kind: "not_found" }, null);
         return;
       }
 
-      console.log("updated department: ", { id: id });
-      result(null, { id: id });
+      console.log("updated department: ", { department: department });
+      result(null, { department: department });
     }
   );
 };

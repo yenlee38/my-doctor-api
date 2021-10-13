@@ -161,28 +161,19 @@ exports.forgotPass = (req, res) => {
         password: Account.hashPassword(req.body.password, salt),
       });
 
-      Account.forgotPass(req.body.username, account, (err, data) => {
+      Account.forgotPass(account, (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).json({
               message: `Not found Account with username ${req.body.username}.`,
-              count: 0,
-              account: null,
             });
           } else {
             res.status(500).json({
               message:
                 "Error updating Account with username " + req.body.username,
-              count: 0,
-              account: null,
             });
           }
-        } else
-          res.json({
-            count: 1,
-            message: "Update password success!",
-            account: data,
-          });
+        } else res.json({ message: "Forgot password success!" });
       });
     }
   });
@@ -285,7 +276,7 @@ exports.exist = (req, res) => {
     if (err) {
       if (err.kind == "not_found")
         res.status(404).json({
-          message: "Not found Account by usernamw " + req.params.username,
+          message: "Not found Account by username " + req.params.username,
           count: 0,
         });
       else
@@ -301,7 +292,7 @@ exports.exist = (req, res) => {
 
     res.json({
       message: "Account find by username!",
-      count: data,
+      count: 1,
     });
   });
 };

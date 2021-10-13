@@ -81,7 +81,7 @@ Patient.updateById = (id, patient, result) => {
     return true;
   });
   sql.query(
-    "UPDATE patient SET avatar = ?, fullName = ?, birthDate = ?, address = ?, updatedAt = ?, WHERE id = ?",
+    "UPDATE patient SET avatar = ?, fullName = ?, birthDate = ?, address = ?, updatedAt = ? WHERE id = ?",
     [
       patient.avatar,
       patient.fullName,
