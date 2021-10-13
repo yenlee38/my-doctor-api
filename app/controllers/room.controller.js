@@ -34,26 +34,16 @@ exports.create = (req, res) => {
 };
 
 // Find a single Room with a roomId
-exports.findOne = (req, res) => {
-  Room.findByName(req.params.name, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).json({
-          message: `Not found Room with id ${req.params.name}.`,
-          room: null,
-          count: 0,
-        });
-      } else {
-        res.status(500).json({
-          message: "Error retrieving Room with id " + req.params.name,
-          room: null,
-          count: 0,
-        });
-      }
-    } else
+exports.filterDept = (req, res) => {
+  Room.filterByDept(req.params.department, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving rooms.",
+        room: null,
+      });
+    else
       res.json({
-        message: "Find one room!",
-        count: 1,
+        message: "Find room by Department!",
         room: data,
       });
   });
