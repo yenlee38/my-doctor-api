@@ -10,6 +10,7 @@ exports.create = (req, res) => {
     });
     return;
   }
+
   const position = new Position({
     id: uuidv4(),
     patientId: req.body.patientId,
@@ -21,20 +22,29 @@ exports.create = (req, res) => {
     updatedAt: new Date(),
   });
 
-  // Save Position in the database
-  Position.create(position, (err, data) => {
-    if (err)
-      res.status(500).json({
-        message:
-          err.message || "Some error occurred while creating the Position.",
+  Position.exist(position, (err, data) => {
+    if (data === null) {
+      Position.create(position, (err, data) => {
+        if (err)
+          res.status(500).json({
+            message:
+              err.message || "Some error occurred while creating the Position.",
+            position: null,
+          });
+        else
+          res.json({
+            message: "Created at position!",
+            position: position,
+          });
+      });
+    } else
+      res.json({
+        message: "Exist position!",
         position: null,
       });
-    else
-      res.json({
-        message: "Created at position!",
-        position: position,
-      });
   });
+
+  // Save Position in the database
 };
 
 exports.findAllByPatient = (req, res) => {
@@ -61,17 +71,17 @@ exports.getMaxPosition = (req, res) => {
     return;
   }
 
-  Position.getMaxPosition(new Position(req.body), (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).json({ message: `Not found position`, max: null });
-      } else {
-        res.status(500).json({
-          message: "Error retrieving position",
-          max: null,
-        });
-      }
-    } else res.json({ message: "Find one position!", max: data });
+  Position.getMaxPosition(req.body.department, req.body.date, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving.",
+        data: null,
+      });
+    else
+      res.json({
+        message: "Get list!",
+        data: data,
+      });
   });
 };
 

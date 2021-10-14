@@ -52,35 +52,27 @@ Position.getPositionByPatient = (patientId, result) => {
     `SELECT * FROM position where patientId = "${patientId}" order by date`,
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         result(null, err);
         return;
       }
 
-      console.log("positions: ", res);
       result(null, res);
     }
   );
 };
 
-Position.getMaxPosition = (position, result) => {
+Position.getMaxPosition = (department, date, result) => {
   sql.query(
-    "SELECT MAX(number) as maxNumber FROM position where room = ? and date = ? and state = ?",
-    [position.room, position.date, NUMBER_STATE.USED],
+    "SELECT position.room, MAX(number) as maxNumber FROM position, room WHERE room.name = position.room and department = ? and date = ? and state = ? group by position.room",
+    [department, date, NUMBER_STATE.NOT_USE],
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
-        result(err, null);
+        console.log(err);
+        result(null, err);
         return;
       }
-
-      if (res.length) {
-        console.log("found position: ", res[0].maxNumber);
-        result(null, res[0].maxNumber);
-        return;
-      }
-
-      result({ kind: "not_found" }, null);
+      console.log(res);
+      result(null, res);
     }
   );
 };
