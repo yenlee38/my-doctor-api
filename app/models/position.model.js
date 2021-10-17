@@ -64,7 +64,7 @@ Position.getPositionByPatient = (patientId, result) => {
 Position.getMaxPosition = (department, date, result) => {
   sql.query(
     "SELECT position.room, MAX(number) as maxNumber FROM position, room WHERE room.name = position.room and department = ? and date = ? and state = ? group by position.room",
-    [department, date, NUMBER_STATE.NOT_USE],
+    [department, date, NUMBER_STATE.USED],
     (err, res) => {
       if (err) {
         console.log(err);
