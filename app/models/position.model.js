@@ -49,7 +49,7 @@ Position.setState = (id, state, result) => {
 
 Position.getPositionByPatient = (patientId, result) => {
   sql.query(
-    `SELECT * FROM position where patientId = "${patientId}" order by date`,
+    `SELECT * FROM position where patientId = "${patientId}"`,
     (err, res) => {
       if (err) {
         result(null, err);
@@ -57,6 +57,69 @@ Position.getPositionByPatient = (patientId, result) => {
       }
 
       result(null, res);
+    }
+  );
+};
+
+Position.filterPositionByState = (patientId, state, result) => {
+  sql.query(
+    `SELECT * FROM position where patientId = "${patientId}" and state="${state}"`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.expired = (result) => {
+  sql.query(
+    "UPDATE position SET state = ?, updatedAt = ? WHERE date < ? and state = ?",
+    [
+      NUMBER_STATE.EXPIRED,
+      new Date(),
+      new Date().toISOString().split("T")[0],
+      NUMBER_STATE.NOT_USE,
+    ],
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      result(null);
+    }
+  );
+};
+
+Position.currentNumberByRoom = (position, result) => {
+  sql.query(
+    "SELECT MAX(number) as current FROM position where room = ? and date = ? and state = ?",
+    [
+      position.room,
+      new Date(position.date).toISOString().split("T")[0],
+      NUMBER_STATE.USED,
+    ],
+    (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        result(null, res[0].current);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
     }
   );
 };

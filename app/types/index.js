@@ -9,24 +9,11 @@ const GENDER = {
   FEMALE: "nữ",
 };
 
-const DEPARTMENT = {
-  Pediatrics: "Khoa Nhi",
-  Otorhinolaryngology: "Khoa Tai-Mũi-Họng",
-  Obstetric: "Khoa Sản",
-  Ophthalmology: "Khoa Mắt",
-  Dental: "Khoa Răng-Hàm-Mặt",
-  Cardiology: "Khoa Tim mạch",
-  Dermatology: "Khoa Da liễu",
-  Laboratory: "Khoa Xét nghiệm",
-  Gastroenterology: "Khoa Tiêu hóa",
-  Musculoskeletal: "Khoa Cơ-Xương-Khớp",
-  Endocrinology: "Khoa Nội tiết",
-};
-
 const NUMBER_STATE = {
   USED: "đã khám",
   NOT_USE: "chưa khám",
   CANCEL: "hủy",
+  EXPIRED: "quá hạn",
 };
 
 const EMOTION = {
@@ -60,7 +47,6 @@ const SESSION = {
 module.exports = {
   ROLES,
   GENDER,
-  DEPARTMENT,
   NUMBER_STATE,
   EMOTION,
   ONLINE_BILL_STATUS,

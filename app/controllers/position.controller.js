@@ -144,3 +144,41 @@ exports.used = (req, res) => {
       });
   });
 };
+
+exports.expired = (req, res) => {
+  Position.expired((err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({
+          message: `Not found Position`,
+        });
+      } else {
+        res.status(500).json({
+          message: "Error used Position",
+        });
+      }
+    } else
+      res.json({
+        message: "Used position!",
+      });
+  });
+};
+
+exports.currentNumberByRoom = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.currentNumberByRoom(new Position(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({ current: 0 });
+      } else {
+        res.status(500).json({ current: 0 });
+      }
+    } else res.json({ current: data || 0 });
+  });
+};
