@@ -5,10 +5,10 @@ module.exports = (app) => {
   app.post("/position", position.create);
   app.post("/position/max", position.getMaxPosition);
   app.post("/position/current", position.currentNumberByRoom);
+  app.post("/position/state", position.findAllByState);
 
   // Retrieve a single Room with positionId
   app.get("/position/:patientId/all", position.findAllByPatient);
-  app.get("/position/state", position.findAllByState);
   app.get("/position/number", position.exist);
 
   // Update a Room with positionId
