@@ -63,6 +63,28 @@ exports.findAllByPatient = (req, res) => {
   });
 };
 
+exports.findAllByState = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+  Position.filterPositionByState(new Position(req.body), (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: null,
+      });
+    else
+      res.json({
+        message: "Get all list position!",
+        position: data,
+      });
+  });
+};
+
 exports.getMaxPosition = (req, res) => {
   if (!req.body) {
     res.status(400).json({

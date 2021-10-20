@@ -61,9 +61,10 @@ Position.getPositionByPatient = (patientId, result) => {
   );
 };
 
-Position.filterPositionByState = (patientId, state, result) => {
+Position.filterPositionByState = (position, result) => {
   sql.query(
-    `SELECT * FROM position where patientId = "${patientId}" and state="${state}"`,
+    "SELECT * FROM position where patientId = ? and state = ?",
+    [position.patientId, position.state],
     (err, res) => {
       if (err) {
         result(null, err);
