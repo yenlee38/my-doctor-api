@@ -4,3 +4,8 @@ PASSWORD = 631d2695
 DB = heroku_ccfa8c93c567a98
 
 JWT_SECRET = mishsjsheddyenltnhshshsyefgan
+
+HOST = localhost
+USER = root
+PASSWORD = 18110402 
+DB = MyDoctor
