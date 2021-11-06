@@ -1,5 +1,5 @@
 const sql = require("./db.js");
-const department = require("../types/index.js").department;
+const Department = require("./department.model.js");
 
 const Room = function (room) {
   this.id = room.id;
@@ -10,16 +10,6 @@ const Room = function (room) {
 };
 
 Room.create = (newRoom, result) => {
-  if (
-    Object.values(department).every((element) => {
-      if (element == newRoom.department) {
-        return false;
-      }
-      return true;
-    })
-  ) {
-    newRoom.department = null;
-  }
   sql.query("INSERT INTO room SET ?", newRoom, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -32,8 +22,8 @@ Room.create = (newRoom, result) => {
   });
 };
 
-Room.findById = (roomId, result) => {
-  sql.query(`SELECT * FROM room WHERE id = "${roomId}"`, (err, res) => {
+Room.findByName = (name, result) => {
+  sql.query(`SELECT * FROM room WHERE name = "${name}"`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -52,20 +42,9 @@ Room.findById = (roomId, result) => {
 };
 
 Room.updateById = (id, room, result) => {
-  Object.values(department).every((element) => {
-    if (element == room.department) {
-      sql.query(
-        "UPDATE room SET department = ? WHERE id = ?",
-        [room.department, id],
-        (err, res) => {}
-      );
-      return false;
-    }
-    return true;
-  });
   sql.query(
-    "UPDATE room SET name = ? WHERE id = ?",
-    [room.name, id],
+    "UPDATE room SET name = ?, department = ?, updatedAt = ? WHERE id = ?",
+    [room.name, room.department, new Date(), id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

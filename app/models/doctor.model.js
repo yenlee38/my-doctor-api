@@ -1,5 +1,5 @@
 const sql = require("./db.js");
-const TYPES = require("../types/index.js");
+const { GENDER } = require("../types/index.js");
 
 const Doctor = function (doctor) {
   this.id = doctor.id;
@@ -61,7 +61,7 @@ Doctor.filterByDept = (dept, result) => {
 
 Doctor.filterByName = (name, result) => {
   sql.query(
-    `SELECT * FROM doctor WHERE fullName like "%${name}%"`,
+    `SELECT * FROM doctor WHERE fullName like "%${name}%" and department ='Xét nghiệm'`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -76,31 +76,23 @@ Doctor.filterByName = (name, result) => {
 };
 
 Doctor.getAll = (result) => {
-  sql.query("SELECT * FROM doctor", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+  sql.query(
+    "SELECT * FROM doctor where department != 'Xét nghiệm'",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
 
-    console.log("doctors: ", res);
-    result(null, res);
-  });
+      console.log("doctors: ", res);
+      result(null, res);
+    }
+  );
 };
 
 Doctor.updateById = (id, doctor, result) => {
-  Object.values(TYPES.DEPARTMENT).every((element) => {
-    if (element === doctor.department) {
-      sql.query(
-        "UPDATE doctor SET department = ? WHERE id = ?",
-        [doctor.department, id],
-        (err, res) => {}
-      );
-      return false;
-    }
-    return true;
-  });
-  Object.values(TYPES.GENDER).every((element) => {
+  Object.values(GENDER).every((element) => {
     if (element === doctor.gender) {
       sql.query(
         "UPDATE doctor SET gender = ? WHERE id = ?",
@@ -112,13 +104,15 @@ Doctor.updateById = (id, doctor, result) => {
     return true;
   });
   sql.query(
-    "UPDATE doctor SET avatar = ?, fullname = ?, birthDate = ?, education = ?, phone = ? WHERE id = ?",
+    "UPDATE doctor SET avatar = ?, fullname = ?, birthDate = ?, education = ?, phone = ?, department = ?, updatedAt = ? WHERE id = ?",
     [
       doctor.avatar,
       doctor.fullname,
       doctor.birthDate,
       doctor.education,
       doctor.phone,
+      doctor.department,
+      new Date(),
       id,
     ],
     (err, res) => {

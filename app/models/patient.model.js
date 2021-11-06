@@ -13,8 +13,11 @@ const Patient = function (patient) {
   this.updatedAt = patient.updatedAt;
 };
 
-Patient.updateAvatar = (patient, result) =>{
-  sql.query("Update patient set avatar = ?, updatedAt = ?, where id = ?", [patient.avatar, new Date(), patient.id], (err, res) => {
+Patient.updateAvatar = (patient, result) => {
+  sql.query(
+    "Update patient set avatar = ?, updatedAt = ?, where id = ?",
+    [patient.avatar, new Date(), patient.id],
+    (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(null, err);
@@ -31,7 +34,7 @@ Patient.updateAvatar = (patient, result) =>{
       result(null, { id: patient.id });
     }
   );
-}
+};
 
 Patient.create = (patient, result) => {
   sql.query("INSERT INTO Patient set ?", patient, (err, res) => {
@@ -41,13 +44,13 @@ Patient.create = (patient, result) => {
       return;
     }
 
-    console.log("created patient: ", );
-    result(null, {...patient});
+    console.log("created patient: ");
+    result(null, { ...patient });
   });
 };
 
 Patient.findById = (patientId, result) => {
-  sql.query(`SELECT * FROM Patient WHERE id = ?` , [patientId], (err, res) => {
+  sql.query(`SELECT * FROM Patient WHERE id = ?`, [patientId], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -67,10 +70,10 @@ Patient.findById = (patientId, result) => {
 
 Patient.updateById = (id, patient, result) => {
   Object.values(gender).every((element) => {
-    if (element == patient.gender) {
+    if (element === patient.gender) {
       sql.query(
-        "UPDATE patient SET gender = ? WHERE id = ?",
-        [patient.gender, id],
+        "UPDATE patient SET gender = ?, updatedAt = ? WHERE id = ?",
+        [patient.gender, new Date(), id],
         (err, res) => {}
       );
       return false;
@@ -79,7 +82,14 @@ Patient.updateById = (id, patient, result) => {
   });
   sql.query(
     "UPDATE patient SET avatar = ?, fullName = ?, birthDate = ?, address = ?, updatedAt = ?, WHERE id = ?",
-    [patient.avatar, patient.fullName, patient.birthDate, patient.address, new Date(), id],
+    [
+      patient.avatar,
+      patient.fullName,
+      patient.birthDate,
+      patient.address,
+      new Date(),
+      id,
+    ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
