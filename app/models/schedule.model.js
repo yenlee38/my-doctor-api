@@ -40,7 +40,7 @@ Schedule.create = (newSchedule, result) => {
   
   Schedule.getAll = (result) => {
     sql.query(
-      `SELECT * FROM schedule"`,
+      `SELECT * FROM schedule`,
       (err, res) => {
         if (err) {
           console.log("error: ", err);
