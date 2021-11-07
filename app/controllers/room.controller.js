@@ -1,5 +1,24 @@
 const Room = require("../models/room.model.js");
 const { v4: uuidv4 } = require("uuid");
+
+
+exports.findAll = (req, res) =>{
+  Room.getAll((err, data) =>{
+      if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving Room.",
+          room: null,
+          count: 0
+      });
+    else res.json({
+      message: "Get list Room",
+      count: data.length,
+      room: data
+    });  
+  })
+}
+
 // Create and Save a new Room
 exports.create = (req, res) => {
   if (!req.body) {

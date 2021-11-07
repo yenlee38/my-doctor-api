@@ -9,6 +9,21 @@ const Room = function (room) {
   this.updatedAt = room.updatedAt;
 };
 
+Room.getAll = result => {
+  sql.query("SELECT * FROM room", (err, res) =>{
+      if(err){
+          console.log("error: ", err);
+          result(err, null);
+          return;
+      }
+
+      console.log("room: ", res);
+      result(null, res);
+  })
+} 
+
+
+
 Room.create = (newRoom, result) => {
   sql.query("INSERT INTO room SET ?", newRoom, (err, res) => {
     if (err) {
