@@ -5,6 +5,6 @@ module.exports = (app) => {
   
     app.get("/schedule", schedule.findAll);
 
-    app.get("/schedule/:doctorId", schedule.findByDoctorId);
+    app.get("/schedule/:doctorId/doctor", schedule.findByDoctorId);
   };
   
