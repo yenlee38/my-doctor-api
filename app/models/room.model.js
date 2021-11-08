@@ -22,8 +22,6 @@ Room.getAll = result => {
   })
 } 
 
-
-
 Room.create = (newRoom, result) => {
   sql.query("INSERT INTO room SET ?", newRoom, (err, res) => {
     if (err) {
@@ -55,6 +53,25 @@ Room.findByName = (name, result) => {
     result({ kind: "not_found" }, null);
   });
 };
+
+// find by Id 
+Room.findById = (id, result) => {
+  sql.query(`SELECT * FROM room WHERE id = "${id}"`, (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      result(null, res);
+      return;
+    }
+
+    // not found room with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 
 Room.updateById = (id, room, result) => {
   sql.query(
