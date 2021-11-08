@@ -78,6 +78,32 @@ exports.findOne = (req, res) => {
   });
 };
 
+// Find list ID
+exports.findById = (req, res) => {
+  Room.findById(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({
+          message: `Not found Room with id ${req.params.id}.`,
+          room: null,
+          count: 0,
+        });
+      } else {
+        res.status(500).json({
+          message: "Error retrieving Room with id " + req.params.id,
+          room: null,
+          count: 0,
+        });
+      }
+    } else
+      res.json({
+        message: "Find list room by id!",
+        count: data.length,
+        room: data,
+      });
+  });
+};
+
 // Update a Room identified by the roomId in the request
 exports.update = (req, res) => {
   if (!req.body) {
