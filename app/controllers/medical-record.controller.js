@@ -16,8 +16,8 @@ exports.create = (res, req) => {
     patientId: res.body.patientId,
     name: res.body.name,
     date: new Date(),
-    precription: null,
-    fileStore: null,
+    precription: res.body.precription,
+    fileStore: res.body.fileStore,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
