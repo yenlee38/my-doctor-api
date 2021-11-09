@@ -108,6 +108,8 @@ exports.signin = (req, res) => {
     } else {
       res.status(404).send({
         message: `Can not found account with username: ${req.body.username}`,
+        count: 0,
+        account: null
       });
     }
   });

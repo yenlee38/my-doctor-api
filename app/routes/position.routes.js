@@ -11,6 +11,8 @@ module.exports = (app) => {
   app.get("/position/:patientId/all", position.findAllByPatient);
   app.get("/position/number", position.exist);
 
+  app.get("/position/:day/day/:room", position.findAllByDayAndRoom);
+
   // Update a Room with positionId
   app.put("/position/:positionId/cancel", position.cancel);
   app.put("/position/:positionId/used", position.used);
