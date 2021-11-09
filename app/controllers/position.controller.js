@@ -10,6 +10,7 @@ exports.create = (req, res) => {
     });
     return;
   }
+
   const position = new Position({
     id: uuidv4(),
     patientId: req.body.patientId,
@@ -21,39 +22,110 @@ exports.create = (req, res) => {
     updatedAt: new Date(),
   });
 
-  // Save Position in the database
-  Position.create(position, (err, data) => {
-    if (err)
-      res.status(500).json({
-        message:
-          err.message || "Some error occurred while creating the Position.",
-        position: null,
-        count: 0,
+  Position.exist(position, (err, data) => {
+    if (data === null) {
+      Position.create(position, (err, data) => {
+        if (err)
+          res.status(500).json({
+            message:
+              err.message || "Some error occurred while creating the Position.",
+            position: null,
+          });
+        else
+          res.json({
+            message: "Created at position!",
+            position: position,
+          });
       });
-    else
+    } else
       res.json({
-        message: "Created at position!",
-        count: 1,
-        position: position,
+        message: "Exist position!",
+        position: null,
       });
   });
+
+  // Save Position in the database
 };
 
-exports.findAll = (req, res) => {
-  Position.getAll((err, data) => {
+exports.findAllByPatient = (req, res) => {
+  Position.getPositionByPatient(req.params.patientId, (err, data) => {
     if (err)
       res.status(500).json({
         message:
           err.message || "Some error occurred while retrieving positions.",
         position: null,
-        count: 0,
       });
     else
       res.json({
-        count: data.length,
-        position: data,
         message: "Get all list position!",
+        position: data,
       });
+  });
+};
+
+exports.findAllByState = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+  Position.filterPositionByState(new Position(req.body), (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: null,
+      });
+    else
+      res.json({
+        message: "Get all list position!",
+        position: data,
+      });
+  });
+};
+
+exports.getMaxPosition = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.getMaxPosition(req.body.department, req.body.date, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving.",
+        data: null,
+      });
+    else
+      res.json({
+        message: "Get list!",
+        data: data,
+      });
+  });
+};
+
+exports.exist = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.exist(new Position(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({ message: `Not found position`, count: 0 });
+      } else {
+        res.status(500).json({
+          message: "Error retrieving position",
+          count: 0,
+        });
+      }
+    } else res.json({ message: "Find one position!", count: 1 });
   });
 };
 
@@ -92,5 +164,43 @@ exports.used = (req, res) => {
       res.json({
         message: "Used position!",
       });
+  });
+};
+
+exports.expired = (req, res) => {
+  Position.expired((err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({
+          message: `Not found Position`,
+        });
+      } else {
+        res.status(500).json({
+          message: "Error used Position",
+        });
+      }
+    } else
+      res.json({
+        message: "Used position!",
+      });
+  });
+};
+
+exports.currentNumberByRoom = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.currentNumberByRoom(new Position(req.body), (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({ current: 0 });
+      } else {
+        res.status(500).json({ current: 0 });
+      }
+    } else res.json({ current: data || 0 });
   });
 };

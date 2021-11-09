@@ -35,22 +35,13 @@ Room.create = (newRoom, result) => {
   });
 };
 
-Room.findByName = (name, result) => {
-  sql.query(`SELECT * FROM room WHERE name = "${name}"`, (err, res) => {
+Room.filterByDept = (dept, result) => {
+  sql.query(`SELECT * FROM room WHERE department = "${dept}"`, (err, res) => {
     if (err) {
-      console.log("error: ", err);
-      result(err, null);
+      result(null, err);
       return;
     }
-
-    if (res.length) {
-      console.log("found room: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
-
-    // not found room with the id
-    result({ kind: "not_found" }, null);
+    result(null, res);
   });
 };
 

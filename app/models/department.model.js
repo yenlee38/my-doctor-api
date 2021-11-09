@@ -39,27 +39,4 @@ Department.findByName = (name, result) => {
   });
 };
 
-Department.updateById = (id, department, result) => {
-  sql.query(
-    "UPDATE department SET name = ?, time = ?, updatedAt = ? WHERE id = ?",
-    [department.name, department.time, new Date(), id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-
-      if (res.affectedRows == 0) {
-        // not found department with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated department: ", { id: id });
-      result(null, { id: id });
-    }
-  );
-};
-
 module.exports = Department;
