@@ -124,7 +124,7 @@ MedicalRecord.getRecord = (id, result) => {
 
 MedicalRecord.getChartByDay = (doctorId, result) => {
   sql.query(
-    `SELECT count(*), hour(date) FROM medicalRecord where doctorId = '${doctorId}' and date like '${
+    `SELECT hour(date) as x, count(*) as y FROM medicalRecord where doctorId = '${doctorId}' and date like '${
       new Date().toISOString().split("T")[0]
     }%' group by hour(date)`,
     (err, res) => {
@@ -148,7 +148,12 @@ MedicalRecord.getByDay = (doctorId, date, result) => {
         return;
       }
 
-      result(null, res);
+      if (res.length) {
+        result(null, res[0]);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
     }
   );
 };
