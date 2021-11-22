@@ -38,3 +38,5 @@ require("./app/routes/medical-record.routes")(app);
 require("./app/routes/department.routes")(app);
 require("./app/routes/position.routes")(app);
 require("./app/routes/schedule.routes")(app);
+require("./app/routes/service.routes")(app);
+require("./app/routes/doctor-registration.routes")(app);

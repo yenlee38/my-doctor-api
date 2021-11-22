@@ -18,3 +18,4 @@ module.exports = (app) => {
   app.put("/position/:positionId/used", position.used);
   app.put("/position/expired", position.expired);
 };
+ 
