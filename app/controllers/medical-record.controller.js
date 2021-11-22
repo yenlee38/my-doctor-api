@@ -14,6 +14,7 @@ exports.create = (res, req) => {
     id: uuidv4(),
     doctorId: res.body.doctorId,
     patientId: res.body.patientId,
+    patientName: res.body.patientName,
     name: res.body.name,
     date: new Date(),
     precription: res.body.precription,
@@ -89,6 +90,96 @@ exports.findAll = (req, res) => {
       res.json({
         message: "Find record by patient!",
         record: data,
+      });
+  });
+};
+
+exports.findAllByDoctor = (req, res) => {
+  MedicalRecord.getAllByDoctor(req.params.doctorId, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message,
+        record: [],
+      });
+    else
+      res.json({
+        message: "all by doctor!",
+        record: data,
+      });
+  });
+};
+
+exports.findByPatientName = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  MedicalRecord.findByPatientName(
+    req.body.doctorId,
+    req.body.patientName,
+    (err, data) => {
+      if (err)
+        res.status(500).json({
+          message: err.message,
+          record: [],
+        });
+      else
+        res.json({
+          message: "find by patientName!",
+          record: data,
+        });
+    }
+  );
+};
+
+exports.findById = (req, res) => {
+  MedicalRecord.getRecord(req.params.id, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message,
+        record: null,
+      });
+    else
+      res.json({
+        message: "record!",
+        record: data,
+      });
+  });
+};
+
+exports.chartByDay = (req, res) => {
+  MedicalRecord.getChartByDay(req.params.doctorId, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message,
+        chart: [],
+      });
+    else
+      res.json({
+        message: "Chart by Day!",
+        chart: data,
+      });
+  });
+};
+
+exports.findByDay = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+  MedicalRecord.getByDay(req.body.doctorId, req.body.date, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message,
+        chart: [],
+      });
+    else
+      res.json({
+        message: "get by day!",
+        chart: data,
       });
   });
 };

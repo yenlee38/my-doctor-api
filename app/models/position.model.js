@@ -163,4 +163,34 @@ Position.exist = (position, result) => {
   );
 };
 
+Position.chartByDate = (result) => {
+  sql.query(
+    `SELECT count(*)as amount, department FROM position, room where position.room = room.name and date= "${
+      new Date().toISOString().split("T")[0]
+    }" group by department`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.chartByDept = (result) => {
+  sql.query(
+    `SELECT count(*)as amount, department FROM position, room where position.room = room.name group by department`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
 module.exports = Position;

@@ -204,3 +204,35 @@ exports.currentNumberByRoom = (req, res) => {
     } else res.json({ current: data || 0 });
   });
 };
+
+exports.chartByDate = (req, res) => {
+  Position.chartByDate((err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        chart: [],
+      });
+    else
+      res.json({
+        message: "chart by date",
+        chart: data,
+      });
+  });
+};
+
+exports.chartByDept = (req, res) => {
+  Position.chartByDept((err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        chart: [],
+      });
+    else
+      res.json({
+        message: "chart by dept",
+        chart: data,
+      });
+  });
+};
