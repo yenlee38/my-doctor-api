@@ -1,19 +1,6 @@
 const Service = require("../models/service.model.js");
 const { v4: uuidv4 } = require("uuid");
 
-const Service = function(service) {
-    this.id = service.id;
-    this.description = service.description;
-    this.name = service.name;
-    this.doctorId = service.doctorId;
-    this.price = service.price;
-    this.duration = service.duration;
-    this.isHidden = service.isHidden;
-    this.createdAt = service.createdAt;
-    this.updatedAt = service.updatedAt;
-}
-
-
 exports.create = (req, res) => {
 
     if (!req.body) {
