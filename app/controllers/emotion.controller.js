@@ -101,7 +101,7 @@ exports.findOne = (req, res) => {
         }
       } else res.json({
         message: "List All emotion by patient",
-        count: data.length,
+        count: 1,
         emotion: data
       });
     });

@@ -57,7 +57,7 @@ exports.findById = (req, res) => {
       } else
         res.json({
           message: "Find list DoctorRegistration by id!",
-          count: data.length,
+          count: 1,
           doctorRegistration: data,
         });
     });
@@ -75,7 +75,7 @@ DoctorRegistration.getAll((err, data) =>{
     });
     else res.json({
     message: "Get list DoctorRegistration",
-    count: data.length,
+    count: 1,
     doctorRegistration: data
     });  
 })

@@ -59,7 +59,7 @@ exports.findByDoctorId = (req, res) => {
 
         res.json({
             message:"Find service by doctor id!",
-            count:data.length,
+            count:1,
             service:data
         });
     })
@@ -76,7 +76,7 @@ exports.getAll = (req, res) => {
         });
       else res.json({
         message: "Get list Service",
-        count: data.length,
+        count: 1,
         service: data
       });  
     })
@@ -101,7 +101,7 @@ exports.findById = (req, res) => {
       } else
         res.json({
           message: "Find list service by id!",
-          count: data.length,
+          count: 1,
           service: data,
         });
     });
