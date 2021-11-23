@@ -13,7 +13,7 @@ exports.findAll = (req, res) =>{
       });
     else res.json({
       message: "Get list Room",
-      count: data.length,
+      count: 1,
       room: data
     });  
   })
@@ -88,7 +88,7 @@ exports.findById = (req, res) => {
     } else
       res.json({
         message: "Find list room by id!",
-        count: data.length,
+        count: 1,
         room: data,
       });
   });

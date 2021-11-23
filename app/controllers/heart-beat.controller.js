@@ -58,7 +58,7 @@ exports.findAll = (req, res) =>{
 
         res.json({
             message:"List all heart beat!",
-            count:data.length,
+            count:1,
             heartBeat:data
         });
     })
@@ -106,7 +106,7 @@ exports.findByPaitentId = (req, res) => {
 
         res.json({
             message:"Find heart beat by patient id!",
-            count:data.length,
+            count:1,
             heartBeat:data
         });
     })

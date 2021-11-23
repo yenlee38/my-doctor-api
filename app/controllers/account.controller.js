@@ -241,7 +241,7 @@ exports.findAll = (req, res) => {
     }
 
     res.json({
-      count: data.length,
+      count: 1,
       message: "List Account !",
       account: data,
     });

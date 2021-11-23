@@ -13,7 +13,7 @@ exports.findAll = (req, res) =>{
 
         res.json({
             message:"List all schedule!",
-            count:data.length,
+            count:1,
             schedule:data
         });
     })
@@ -37,7 +37,7 @@ exports.findByDoctorId = (req, res) => {
 
         res.json({
             message:"Find schedule by doctor id!",
-            count:data.length,
+            count:1,
             schedule:data
         });
     })

@@ -56,7 +56,7 @@ exports.findAll = (req, res) =>{
         });
       else res.json({
         message: "Get list BMI",
-        count: data.length,
+        count: 1,
         bmi: data
       });  
     })
@@ -104,7 +104,7 @@ exports.findByPaitentId = (req, res) => {
             }
         }else res.json({
           message: "Find BMI by patient!",
-          count: data.length,
+          count: 1,
           bmi: data
         });
     })
