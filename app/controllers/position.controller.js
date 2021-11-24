@@ -205,8 +205,8 @@ exports.currentNumberByRoom = (req, res) => {
   });
 };
 
-exports.chartByDate = (req, res) => {
-  Position.chartByDate((err, data) => {
+exports.chartByState = (req, res) => {
+  Position.chartByState((err, data) => {
     if (err)
       res.status(500).json({
         message:

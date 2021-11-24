@@ -163,11 +163,9 @@ Position.exist = (position, result) => {
   );
 };
 
-Position.chartByDate = (result) => {
+Position.chartByState = (result) => {
   sql.query(
-    `SELECT count(*) as amount, department FROM position, room where position.room = room.name and date like '${
-      new Date().toISOString().split("T")[0]
-    }%' group by department`,
+    `SELECT department, state, count(*) as amount FROM position, room where position.room = room.name group by department, state`,
     (err, res) => {
       if (err) {
         result(null, err);
