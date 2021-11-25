@@ -191,4 +191,36 @@ Position.chartByDept = (result) => {
   );
 };
 
+Position.getAllByDept = (dept, result) => {
+  sql.query(
+    `SELECT position.room, number, state FROM position, room where date like'${
+      new Date().toISOString().split("T")[0]
+    }%' and department = '${dept}' and position.room = room.name`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.getAllByRoom = (room, result) => {
+  sql.query(
+    `SELECT * FROM position where date like '${
+      new Date().toISOString().split("T")[0]
+    }%' and room = '${room}' and state = '${NUMBER_STATE.NOT_USE}'`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
 module.exports = Position;

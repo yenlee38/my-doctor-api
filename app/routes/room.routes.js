@@ -6,6 +6,7 @@ module.exports = (app) => {
 
   // Retrieve a single Room with roomId
   app.get("/room/:department", room.filterDept);
+  app.get("/room", room.findAll);
 
   // Update a Room with roomId
   app.put("/room/:roomId", room.update);

@@ -236,3 +236,35 @@ exports.chartByDept = (req, res) => {
       });
   });
 };
+
+exports.findAllByDept = (req, res) => {
+  Position.getAllByDept(req.params.department, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: [],
+      });
+    else
+      res.json({
+        message: "get all by dept",
+        position: data,
+      });
+  });
+};
+
+exports.findAllByRoom = (req, res) => {
+  Position.getAllByRoom(req.params.room, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: [],
+      });
+    else
+      res.json({
+        message: "get all by room",
+        position: data,
+      });
+  });
+};

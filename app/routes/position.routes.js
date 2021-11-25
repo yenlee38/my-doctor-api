@@ -12,6 +12,8 @@ module.exports = (app) => {
   app.get("/position/number", position.exist);
   app.get("/position/chartState", position.chartByState);
   app.get("/position/chartDept", position.chartByDept);
+  app.get("/position/:department/dept", position.findAllByDept);
+  app.get("/position/:room/room", position.findAllByRoom);
 
   // Update a Room with positionId
   app.put("/position/:positionId/cancel", position.cancel);
