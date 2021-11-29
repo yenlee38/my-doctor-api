@@ -27,7 +27,7 @@ exports.create = (req, res) => {
         if(err){
             res.status(500).json({
                 message: err.message || "Some error occurred while creating the Service",
-                bmi: null,
+                service: null,
                 count: 0
             })
         }else res.json(
@@ -55,13 +55,11 @@ exports.findByDoctorId = (req, res) => {
              service: null,
              count: 0
             })
-        }
-
-        res.json({
-            message:"Find service by doctor id!",
-            count:1,
-            service:data
-        });
+        } else res.json({
+          message:"Find service by doctor id!",
+          count:1,
+          service:data
+      });
     })
 }
 
