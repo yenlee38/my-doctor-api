@@ -1,5 +1,6 @@
 const Schedule = require("../models/schedule.model.js");
 const { v4: uuidv4 } = require("uuid");
+const e = require("cors");
 
 exports.findAll = (req, res) =>{
     Schedule.getAll((err, data)=>{
@@ -10,7 +11,7 @@ exports.findAll = (req, res) =>{
                 count: 0
             })
         }
-
+        else
         res.json({
             message:"List all schedule!",
             count:1,
@@ -34,7 +35,7 @@ exports.findByDoctorId = (req, res) => {
              count: 0
             })
         }
-
+        else
         res.json({
             message:"Find schedule by doctor id!",
             count:1,

@@ -96,7 +96,7 @@ exports.findByPatientId = (req, res) => {
              count: 0
             })
         }
-
+        else
         res.json({
             message:"Find DoctorRegistration by patient id!",
             count:data.length,
