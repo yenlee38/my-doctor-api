@@ -9,5 +9,7 @@ module.exports = (app) => {
     app.get("/doctor-registration/:id", doctorRegistration.findById);
   
     app.post("/doctor-registration", doctorRegistration.create);
+
+    app.post("/doctor-registration/update/:id", doctorRegistration.update);
   };
   

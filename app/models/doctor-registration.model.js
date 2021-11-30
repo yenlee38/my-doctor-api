@@ -8,7 +8,7 @@ const DoctorRegistration = function(doctorRegistration) {
     this.createdAt = doctorRegistration.createdAt;
     this.updatedAt = doctorRegistration.updatedAt;
     this.isHidden = doctorRegistration.isHidden;
-    this.status = doctorRegistration.status; //pendding, confirmed, expired, cancel
+    this.status = doctorRegistration.status; // created, pendding, confirmed,  expired, cancel
 }
 
 DoctorRegistration.updateById = (id, doctorRegistration, result) => {
