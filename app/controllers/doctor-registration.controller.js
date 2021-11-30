@@ -1,6 +1,45 @@
 const DoctorRegistration = require("../models/doctor-registration.model.js");
 const { v4: uuidv4 } = require("uuid");
 
+// Update a Doctor identified by the doctorId in the request
+exports.update = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+
+  const doctorRegistration = new DoctorRegistration({
+    id: req.params.id,
+    status: req.body.status,
+    name: req.body.name
+  });
+
+
+  DoctorRegistration.updateById(req.params.id, doctorRegistration, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found DoctorRegistration with id ${req.params.id}.`,
+          doctorRegistration: null,
+          count: 0,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating DoctorRegistration with id " + req.params.id,
+          doctorRegistration: null,
+          count: 0,
+        });
+      }
+    } else
+      res.json({
+        message: "Updated DoctorRegistration !",
+        count: 1,
+        doctorRegistration: doctorRegistration,
+      });
+  });
+};
+
 exports.create = (req, res) => {
     if (!req.body) {
       res.status(400).json({
@@ -99,7 +138,7 @@ exports.findByPatientId = (req, res) => {
         else
         res.json({
             message:"Find DoctorRegistration by patient id!",
-            count:data.length,
+            count:1,
             doctorRegistration: data
         });
     })
