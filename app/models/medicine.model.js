@@ -17,4 +17,17 @@ Medicine.getAll = (result) => {
   });
 };
 
+Medicine.getByName = (name, result) => {
+  sql.query(
+    `SELECT * FROM medicine where name like '%${name}%'`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+      result(null, res);
+    }
+  );
+};
+
 module.exports = Medicine;
