@@ -37,7 +37,7 @@ exports.create = (req, res) => {
 };
 
 exports.filterRecord = (req, res) => {
-  Prescription.filterByRecord(recordId, (err, data) => {
+  Prescription.filterByRecord(req.params.recordId, (err, data) => {
     if (err)
       res.status(500).json({
         message:
