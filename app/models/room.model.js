@@ -33,7 +33,7 @@ Room.getAll = (result) => {
 };
 
 Room.filterByDept = (dept, result) => {
-  sql.query(`SELECT * FROM room WHERE department = "${dept}"`, (err, res) => {
+  sql.query(`SELECT * FROM room WHERE department = '${dept}'`, (err, res) => {
     if (err) {
       result(null, err);
       return;

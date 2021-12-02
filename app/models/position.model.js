@@ -211,7 +211,9 @@ Position.getAllByRoom = (room, result) => {
   sql.query(
     `SELECT * FROM position where date like '${
       new Date().toISOString().split("T")[0]
-    }%' and room = '${room}' and state = '${NUMBER_STATE.NOT_USE}'`,
+    }%' and room = '${room}' and state = '${
+      NUMBER_STATE.NOT_USE
+    }' order by number`,
     (err, res) => {
       if (err) {
         result(null, err);

@@ -37,3 +37,4 @@ require("./app/routes/heart-beat.routes.js")(app);
 require("./app/routes/medical-record.routes")(app);
 require("./app/routes/department.routes")(app);
 require("./app/routes/position.routes")(app);
+require("./app/routes/medicine.routes")(app);
