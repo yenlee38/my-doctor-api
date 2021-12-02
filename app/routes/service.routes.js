@@ -7,7 +7,7 @@ module.exports = (app) => {
 
     app.get("/service/:doctorId/doctor", service.findByDoctorId);
 
-    app.get("/service/:serviceId", service.findById);
+    app.get("/service/:id", service.findById);
     
   };
   
