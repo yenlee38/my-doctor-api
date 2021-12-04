@@ -4,8 +4,16 @@ module.exports = (app) => {
   const MedicalRecord = require("../models/medical-record.model");
   const cloudinary = require("../middleware/cloudinary");
 
+  app.get("/medical-record/:doctorId/doctor", medicalRecord.findAllByDoctor);
+  app.post("/medical-record/patientName", medicalRecord.findByPatientName);
+  app.post("/medical-record/date", medicalRecord.findByDay);
+
+  app.get("/medical-record/:id/record", medicalRecord.findById);
+
+  app.get("/medical-record/:doctorId/chartDay", medicalRecord.chartByDay);
+
   app.post("/medical-record", medicalRecord.create);
-  app.get("/medical-record/:patientId", medicalRecord.findAll);
+  app.get("/medical-record/:patientId/patient", medicalRecord.findAll);
   app.post(
     "/medical-record/:medicalRecordId/upload-file",
     multer.upload.single("file"),

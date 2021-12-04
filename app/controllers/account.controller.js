@@ -68,7 +68,6 @@ exports.signin = (req, res) => {
       const account = new Account({
         username: req.body.username,
         password: Account.hashPassword(req.body.password, salt),
-        role: req.body.role,
       });
 
       Account.signin(account.username, account.password, (err, data) => {

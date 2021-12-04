@@ -204,3 +204,90 @@ exports.currentNumberByRoom = (req, res) => {
     } else res.json({ current: data || 0 });
   });
 };
+
+exports.chartByState = (req, res) => {
+  Position.chartByState((err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        chart: [],
+      });
+    else
+      res.json({
+        message: "chart by date",
+        chart: data,
+      });
+  });
+};
+
+exports.chartByDept = (req, res) => {
+  Position.chartByDept((err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        chart: [],
+      });
+    else
+      res.json({
+        message: "chart by dept",
+        chart: data,
+      });
+  });
+};
+
+exports.findAllByDept = (req, res) => {
+  Position.getAllByDept(req.params.department, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: [],
+      });
+    else
+      res.json({
+        message: "get all by dept",
+        position: data,
+      });
+  });
+};
+
+exports.findAllByRoom = (req, res) => {
+  Position.getAllByRoom(req.params.room, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: [],
+      });
+    else
+      res.json({
+        message: "get all by room",
+        position: data,
+      });
+  });
+};
+
+exports.findAllByRoomState = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.getAllByRoomState(new Position(req.body), (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: null,
+      });
+    else
+      res.json({
+        message: "Get all list position by room by state!",
+        position: data,
+      });
+  });
+};

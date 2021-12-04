@@ -52,6 +52,21 @@ exports.create = (req, res) => {
   });
 };
 
+exports.findAll = (req, res) => {
+  Room.getAll((err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving rooms.",
+        room: null,
+      });
+    else
+      res.json({
+        message: "Find room by Department!",
+        room: data,
+      });
+  });
+};
+
 // Find a single Room with a roomId
 exports.filterDept = (req, res) => {
   Room.filterByDept(req.params.department, (err, data) => {

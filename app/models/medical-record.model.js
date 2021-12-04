@@ -3,6 +3,7 @@ const MedicalRecord = function (medicalRecord) {
   this.id = medicalRecord.id;
   this.doctorId = medicalRecord.doctorId;
   this.patientId = medicalRecord.patientId;
+  this.patientName = medicalRecord.patientName;
   this.name = medicalRecord.name;
   this.date = medicalRecord.date;
   this.precription = medicalRecord.precription;
@@ -67,13 +68,92 @@ MedicalRecord.getAllByPatient = (patientId, result) => {
     [patientId],
     (err, res) => {
       if (err) {
-        console.log("error: ", err);
         result(err, null);
         return;
       }
 
-      console.log("BMI: ", res);
       result(null, res);
+    }
+  );
+};
+
+MedicalRecord.getAllByDoctor = (doctorId, result) => {
+  sql.query(
+    "SELECT * FROM medicalRecord where doctorId = ? order by date DESC",
+    [doctorId],
+    (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+MedicalRecord.findByPatientName = (doctorId, patientName, result) => {
+  sql.query(
+    `SELECT * FROM medicalRecord where doctorId = '${doctorId}' and patientName like '%${patientName}%'`,
+    (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+MedicalRecord.getRecord = (id, result) => {
+  sql.query("SELECT * FROM medicalRecord where id = ?", [id], (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      result(null, res[0]);
+      return;
+    }
+
+    result({ kind: "not_found" }, null);
+  });
+};
+
+MedicalRecord.getChartByDay = (doctorId, result) => {
+  sql.query(
+    `SELECT hour(date) as x, count(*) as y FROM medicalRecord where doctorId = '${doctorId}' and date like '${
+      new Date().toISOString().split("T")[0]
+    }%' group by hour(date)`,
+    (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+MedicalRecord.getByDay = (doctorId, date, result) => {
+  sql.query(
+    "SELECT date as x, count(*) as y FROM medicalRecord where doctorId = ? and date = ?",
+    [doctorId, date],
+    (err, res) => {
+      if (err) {
+        result(err, null);
+        return;
+      }
+
+      if (res.length) {
+        result(null, res[0]);
+        return;
+      }
+
+      result({ kind: "not_found" }, null);
     }
   );
 };

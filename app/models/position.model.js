@@ -163,6 +163,84 @@ Position.exist = (position, result) => {
   );
 };
 
+Position.chartByState = (result) => {
+  sql.query(
+    `SELECT department, state, count(*) as amount FROM position, room where position.room = room.name group by department, state`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.chartByDept = (result) => {
+  sql.query(
+    `SELECT count(*)as amount, department FROM position, room where position.room = room.name group by department`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.getAllByDept = (dept, result) => {
+  sql.query(
+    `SELECT position.room, number, state FROM position, room where date like'${
+      new Date().toISOString().split("T")[0]
+    }%' and department = '${dept}' and position.room = room.name order by number DESC`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.getAllByRoom = (room, result) => {
+  sql.query(
+    `SELECT * FROM position where date like '${
+      new Date().toISOString().split("T")[0]
+    }%' and room like '${room}' order by number`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
+Position.getAllByRoomState = (position, result) => {
+  sql.query(
+    `SELECT * FROM position where date like '${
+      new Date().toISOString().split("T")[0]
+    }%' and room like '${position.room}%' and state like '${
+      position.state
+    }%' order by number`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
 // Position.getAllByDayAndRoom = (result) => {
 //   sql.query(
 //     `SELECT * FROM position where state = "${NUMBER_STATE.NOT_USE}"`,
@@ -178,6 +256,7 @@ Position.exist = (position, result) => {
 //     }
 //   );
 // };
+
 
 
 module.exports = Position;

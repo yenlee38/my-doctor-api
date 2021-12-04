@@ -35,8 +35,18 @@ Room.create = (newRoom, result) => {
   });
 };
 
+Room.getAll = (result) => {
+  sql.query(`SELECT * FROM room`, (err, res) => {
+    if (err) {
+      result(null, err);
+      return;
+    }
+    result(null, res);
+  });
+};
+
 Room.filterByDept = (dept, result) => {
-  sql.query(`SELECT * FROM room WHERE department = "${dept}"`, (err, res) => {
+  sql.query(`SELECT * FROM room WHERE department = '${dept}'`, (err, res) => {
     if (err) {
       result(null, err);
       return;
