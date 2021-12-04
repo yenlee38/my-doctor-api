@@ -253,17 +253,24 @@ exports.findAllByDept = (req, res) => {
   });
 };
 
-exports.findAllByRoom = (req, res) => {
-  Position.getAllByRoom(req.params.room, (err, data) => {
+exports.findAllByRoomState = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+    return;
+  }
+
+  Position.getAllByRoomState(new Position(req.body), (err, data) => {
     if (err)
       res.status(500).json({
         message:
           err.message || "Some error occurred while retrieving positions.",
-        position: [],
+        position: null,
       });
     else
       res.json({
-        message: "get all by room",
+        message: "Get all list position by room by state!",
         position: data,
       });
   });

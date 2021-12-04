@@ -6,6 +6,7 @@ module.exports = (app) => {
   app.post("/position/max", position.getMaxPosition);
   app.post("/position/current", position.currentNumberByRoom);
   app.post("/position/state", position.findAllByState);
+  app.post("/position/roomState", position.findAllByRoomState);
 
   // Retrieve a single Room with positionId
   app.get("/position/:patientId/all", position.findAllByPatient);
@@ -13,7 +14,6 @@ module.exports = (app) => {
   app.get("/position/chartState", position.chartByState);
   app.get("/position/chartDept", position.chartByDept);
   app.get("/position/:department/dept", position.findAllByDept);
-  app.get("/position/:room/room", position.findAllByRoom);
 
   // Update a Room with positionId
   app.put("/position/:positionId/cancel", position.cancel);
