@@ -107,6 +107,8 @@ exports.signin = (req, res) => {
     } else {
       res.status(404).send({
         message: `Can not found account with username: ${req.body.username}`,
+        count: 0,
+        account: null
       });
     }
   });
@@ -238,7 +240,7 @@ exports.findAll = (req, res) => {
     }
 
     res.json({
-      count: data.length,
+      count: 1,
       message: "List Account !",
       account: data,
     });

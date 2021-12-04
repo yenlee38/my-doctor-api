@@ -16,8 +16,11 @@ module.exports = (app) => {
   app.get("/position/:department/dept", position.findAllByDept);
   app.get("/position/:room/room", position.findAllByRoom);
 
+  // app.get("/position/:day/day/:room", position.findAllByDayAndRoom);
+
   // Update a Room with positionId
   app.put("/position/:positionId/cancel", position.cancel);
   app.put("/position/:positionId/used", position.used);
   app.put("/position/expired", position.expired);
 };
+ 

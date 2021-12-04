@@ -39,7 +39,7 @@ HeartBeat.updateById = (id, heartBeat, result) =>{
             return;
         }
 
-        console.log( res.affectedRows  + " HeartBeart was updated!" + { id: id, ...heartBeat })
+        console.log( res.affectedRows  + " HeartBeat was updated!" + { id: id, ...heartBeat })
         result(null, { ...heartBeat });
     })
 }

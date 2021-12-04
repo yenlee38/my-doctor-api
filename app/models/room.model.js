@@ -9,6 +9,19 @@ const Room = function (room) {
   this.updatedAt = room.updatedAt;
 };
 
+Room.getAll = result => {
+  sql.query("SELECT * FROM room", (err, res) =>{
+      if(err){
+          console.log("error: ", err);
+          result(err, null);
+          return;
+      }
+
+      console.log("room: ", res);
+      result(null, res);
+  })
+} 
+
 Room.create = (newRoom, result) => {
   sql.query("INSERT INTO room SET ?", newRoom, (err, res) => {
     if (err) {
@@ -41,6 +54,25 @@ Room.filterByDept = (dept, result) => {
     result(null, res);
   });
 };
+
+// find by Id 
+Room.findById = (id, result) => {
+  sql.query(`SELECT * FROM room WHERE id = "${id}"`, (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      result(null, res);
+      return;
+    }
+
+    // not found room with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 
 Room.updateById = (id, room, result) => {
   sql.query(

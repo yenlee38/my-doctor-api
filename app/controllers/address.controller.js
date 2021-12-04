@@ -55,7 +55,7 @@ exports.findAll = (req, res) =>{
             count: 0
         });
       else res.json({
-        count: data.length,
+        count: 1,
         message: "List all address!",
         address: data
       });  
@@ -103,7 +103,7 @@ exports.findOne = (req, res) => {
           });
         }
       } else res.json({
-        count: data.length,
+        count: 1,
         message: "List all address by patient!",
         address: data
       });  

@@ -10,4 +10,8 @@ module.exports = (app) => {
 
   // Update a Room with roomId
   app.put("/room/:roomId", room.update);
+
+  app.get("/room", room.findAll);
+
+  app.get("/room/:id/id", room.findById);
 };

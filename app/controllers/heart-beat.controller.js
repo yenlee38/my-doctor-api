@@ -1,4 +1,4 @@
-const HeartBeart = require("../models/heart-beat.model")
+const HeartBeat = require("../models/heart-beat.model")
 const {v4: uuidv4} = require('uuid');
 
 exports.create = (req, res) => {}
@@ -17,7 +17,7 @@ exports.create = (req, res) =>{
         })
     }
 
-    const heartBeat = new HeartBeart({
+    const heartBeat = new HeartBeat({
         id: uuidv4(),
         patientId: req.body.patientId,
         createdAt: new Date(),
@@ -28,7 +28,7 @@ exports.create = (req, res) =>{
         heartBeat: req.body.heartBeat
     })
 
-    HeartBeart.create(heartBeat, (err, data) =>{
+    HeartBeat.create(heartBeat, (err, data) =>{
         if(err){
             res.status(500).json({
                 message: err.message || "Some thing was wrong when  created HeartBeat",
@@ -40,14 +40,14 @@ exports.create = (req, res) =>{
         res.json({
             message:"Created Heart beat success!",
             count:1,
-            heartBeart:heartBeat
+            heartBeat:heartBeat
         });
 
     })
 }
 
 exports.findAll = (req, res) =>{
-    HeartBeart.getAll((err, data)=>{
+    HeartBeat.getAll((err, data)=>{
         if(err){
             res.status(500).json({
                 message: err.message  || "Some thing was wrong when find ",
@@ -58,14 +58,14 @@ exports.findAll = (req, res) =>{
 
         res.json({
             message:"List all heart beat!",
-            count:data.length,
-            heartBeart:data
+            count:1,
+            heartBeat:data
         });
     })
 }
 
 exports.findOne = (req, res) =>{
-   HeartBeart.getById(req.params.heartBeatId, (err, data) =>{
+   HeartBeat.getById(req.params.heartBeatId, (err, data) =>{
        if(err){
            if(err.kind == "not_found"){
                res.status(404).json({
@@ -83,13 +83,13 @@ exports.findOne = (req, res) =>{
        res.json({
         message:"Find heart beat by id!",
         count:1,
-        heartBeart:data
+        heartBeat:data
        });
    })
 }
 
 exports.findByPaitentId = (req, res) => {
-    HeartBeart.getByPatientId (req.params.patientId, (err, data) => {
+    HeartBeat.getByPatientId (req.params.patientId, (err, data) => {
         if(err){
             if(err.kind == "not_found"){
                 res.status(404).json({
@@ -106,14 +106,14 @@ exports.findByPaitentId = (req, res) => {
 
         res.json({
             message:"Find heart beat by patient id!",
-            count:data.length,
-            heartBeart:data
+            count:1,
+            heartBeat:data
         });
     })
 }
 
 exports.delete = (req, res) =>{
-    HeartBeart.remove(req.params.heartBeatId, (err, data) =>{
+    HeartBeat.remove(req.params.heartBeatId, (err, data) =>{
         if(err){
             if(err.kind == "not_found"){
                 res.status(404).json({
@@ -139,7 +139,7 @@ exports.update = (req, res) =>{
         })
     }
 
-    HeartBeart.updateById(req.params.heartBeatId, new HeartBeart(req.body), (err, data) =>{
+    HeartBeat.updateById(req.params.heartBeatId, new HeartBeat(req.body), (err, data) =>{
         if(err){
             if(err.kind == "not_found"){
                 res.status(404).json({
@@ -156,13 +156,13 @@ exports.update = (req, res) =>{
         res.json({
             message:"Updated Heart beat success!",
             count:1,
-            heartBeart:new HeartBeart(req.body)
+            heartBeat:new HeartBeat(req.body)
         });
     })
 }
 
 exports.deleteAll= (req, res) =>{
-    HeartBeart.deleteAll((err, data) =>{
+    HeartBeat.deleteAll((err, data) =>{
         if(err){
             res.status(500).json({
                 message: err.message  || "Some thing was wrong when delete all HeartBeat",
@@ -176,7 +176,7 @@ exports.deleteAll= (req, res) =>{
 }
 
 exports.deleteAllByPatientId  = (req, res) =>{
-    HeartBeart.removeByPatientId(req.params.patientId, (err, data) =>{
+    HeartBeat.removeByPatientId(req.params.patientId, (err, data) =>{
         if(err){
             if(err.kind == "not_found"){
                 res.status(404).json({

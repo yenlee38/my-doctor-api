@@ -1,5 +1,24 @@
 const Room = require("../models/room.model.js");
 const { v4: uuidv4 } = require("uuid");
+
+
+exports.findAll = (req, res) =>{
+  Room.getAll((err, data) =>{
+      if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving Room.",
+          room: null,
+          count: 0
+      });
+    else res.json({
+      message: "Get list Room",
+      count: 1,
+      room: data
+    });  
+  })
+}
+
 // Create and Save a new Room
 exports.create = (req, res) => {
   if (!req.body) {
@@ -59,6 +78,32 @@ exports.filterDept = (req, res) => {
     else
       res.json({
         message: "Find room by Department!",
+        room: data,
+      });
+  });
+};
+
+// Find list ID
+exports.findById = (req, res) => {
+  Room.findById(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({
+          message: `Not found Room with id ${req.params.id}.`,
+          room: null,
+          count: 0,
+        });
+      } else {
+        res.status(500).json({
+          message: "Error retrieving Room with id " + req.params.id,
+          room: null,
+          count: 0,
+        });
+      }
+    } else
+      res.json({
+        message: "Find list room by id!",
+        count: 1,
         room: data,
       });
   });
