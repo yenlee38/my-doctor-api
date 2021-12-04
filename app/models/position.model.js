@@ -223,13 +223,11 @@ Position.getAllByRoom = (room, result) => {
   );
 };
 
-Position.getAllByRoomState = (position, result) => {
+Position.getAllByRoomState = (room, state, dept, result) => {
   sql.query(
-    `SELECT * FROM position where date like '${
+    `SELECT position.room, number, state FROM position, room where position.room = room.name and date like '${
       new Date().toISOString().split("T")[0]
-    }%' and room like '${position.room}%' and state like '${
-      position.state
-    }%' order by number`,
+    }%' and room like '${room}%' and state like '${state}%' and department ='${dept}' order by number DESC`,
     (err, res) => {
       if (err) {
         result(null, err);
