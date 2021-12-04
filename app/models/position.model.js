@@ -207,6 +207,22 @@ Position.getAllByDept = (dept, result) => {
   );
 };
 
+Position.getAllByRoom = (room, result) => {
+  sql.query(
+    `SELECT * FROM position where date like '${
+      new Date().toISOString().split("T")[0]
+    }%' and room like '${room}' order by number`,
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      result(null, res);
+    }
+  );
+};
+
 Position.getAllByRoomState = (position, result) => {
   sql.query(
     `SELECT * FROM position where date like '${

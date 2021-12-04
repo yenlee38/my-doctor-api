@@ -253,6 +253,22 @@ exports.findAllByDept = (req, res) => {
   });
 };
 
+exports.findAllByRoom = (req, res) => {
+  Position.getAllByRoom(req.params.room, (err, data) => {
+    if (err)
+      res.status(500).json({
+        message:
+          err.message || "Some error occurred while retrieving positions.",
+        position: [],
+      });
+    else
+      res.json({
+        message: "get all by room",
+        position: data,
+      });
+  });
+};
+
 exports.findAllByRoomState = (req, res) => {
   if (!req.body) {
     res.status(400).json({
