@@ -1,11 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const corsOptions ={
-  origin:'*', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}
+
 const app = express();
 require("dotenv").config();
 // parse requests of content-type: application/json
@@ -14,7 +10,7 @@ app.use(bodyParser.json());
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // simple route
 app.get("/", (req, res) => {
