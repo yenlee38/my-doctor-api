@@ -277,17 +277,22 @@ exports.findAllByRoomState = (req, res) => {
     return;
   }
 
-  Position.getAllByRoomState(new Position(req.body), (err, data) => {
-    if (err)
-      res.status(500).json({
-        message:
-          err.message || "Some error occurred while retrieving positions.",
-        position: null,
-      });
-    else
-      res.json({
-        message: "Get all list position by room by state!",
-        position: data,
-      });
-  });
+  Position.getAllByRoomState(
+    req.body.room,
+    req.body.state,
+    req.body.department,
+    (err, data) => {
+      if (err)
+        res.status(500).json({
+          message:
+            err.message || "Some error occurred while retrieving positions.",
+          position: null,
+        });
+      else
+        res.json({
+          message: "Get all list position by room by state!",
+          position: data,
+        });
+    }
+  );
 };
