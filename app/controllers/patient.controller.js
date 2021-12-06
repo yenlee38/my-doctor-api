@@ -3,6 +3,22 @@ const cloudinary = require("../middleware/cloudinary");
 
 // Find a single Patient with a patientId
 
+
+exports.findAll = (req, res) => {
+  Patient.getAll((err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving patient.",
+        patient: null,
+      });
+    else
+      res.json({
+        patient: data,
+        message: "Get all list patient!",
+      });
+  });
+};
+
 exports.uploadAvatar = async (req, res) => {
   try {
     const result = await cloudinary.uploader.upload(req.file.path);

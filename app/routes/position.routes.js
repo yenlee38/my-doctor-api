@@ -8,6 +8,7 @@ module.exports = (app) => {
   app.post("/position/state", position.findAllByState);
   app.post("/position/roomState", position.findAllByRoomState);
 
+  app.get("/position", position.findAll);
   // Retrieve a single Room with positionId
   app.get("/position/:patientId/all", position.findAllByPatient);
   app.get("/position/number", position.exist);

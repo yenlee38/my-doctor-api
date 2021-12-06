@@ -2,6 +2,23 @@ const Position = require("../models/position.model.js");
 const { NUMBER_STATE } = require("../types/index.js");
 
 const { v4: uuidv4 } = require("uuid");
+
+exports.findAll = (req, res) => {
+  Position.getAll((err, data) => {
+    if (err)
+      res.status(500).json({
+        message: err.message || "Some error occurred while retrieving patient.",
+        position: null,
+      });
+    else
+      res.json({
+        position: data,
+        message: "Get all list patient!",
+      });
+  });
+};
+
+
 // Create and Save a new Position
 exports.create = (req, res) => {
   if (!req.body) {

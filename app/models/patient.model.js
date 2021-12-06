@@ -13,6 +13,22 @@ const Patient = function (patient) {
   this.updatedAt = patient.updatedAt;
 };
 
+Patient.getAll = (result) => {
+  sql.query(
+    "SELECT * FROM patient",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      console.log("patients: ", res);
+      result(null, res);
+    }
+  );
+};
+
 Patient.updateAvatar = (patient, result) => {
   sql.query(
     "Update patient set avatar = ?, updatedAt = ?, where id = ?",

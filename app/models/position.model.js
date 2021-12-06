@@ -12,6 +12,24 @@ const Position = function (position) {
   this.updatedAt = position.updatedAt;
 };
 
+
+Position.getAll = (result) => {
+  sql.query(
+    "SELECT * FROM position",
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      console.log("position: ", res);
+      result(null, res);
+    }
+  );
+};
+
+
 Position.create = (newPosition, result) => {
   sql.query("INSERT INTO position SET ?", newPosition, (err, res) => {
     if (err) {

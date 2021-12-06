@@ -4,6 +4,8 @@ module.exports = (app) => {
   const Patient = require("../models/patient.model.js");
   const cloudinary = require("../middleware/cloudinary");
 
+
+  app.get("/patient", patient.findAll);
   // Retrieve a single Patient with patientId
   app.get("/patient/:patientId", patient.findOne);
 
