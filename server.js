@@ -15,8 +15,8 @@ app.engine("ejs", engines.ejs);
 app.set("views", "./views");
 app.set("view engine", "ejs");
  
-
-
+ 
+app.use( express.static( "public" ) );
 require("dotenv").config();
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
