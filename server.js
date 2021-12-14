@@ -30,7 +30,7 @@ app.get("/payment", (req, res) => {
   res.render("paypal-view");
 })
 
-app.post("/payment/paypal", (req, res) => {
+app.get("/payment/paypal", (req, res) => {
   var create_payment_json = { 
     "intent": "sale",
     "payer": {
