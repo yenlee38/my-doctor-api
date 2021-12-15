@@ -30,9 +30,15 @@ app.get("/payment", (req, res) => {
   res.render("paypal-view");
 })
 
-app.get("/payment/paypal", (req, res) => {
+app.get("/payment/paypal/:money/:name", (req, res) => {
+  
+  let money =  req.params.money;
+  let name = req.params.name;
+
+
+  
   var create_payment_json = { 
-    "intent": "sale",
+    "intent": "sale", 
     "payer": {
         "payment_method": "paypal"
     },
@@ -43,24 +49,26 @@ app.get("/payment/paypal", (req, res) => {
     "transactions": [{
         "item_list": {
             "items": [{
-                "name": "item",
+                "name": name,
                 "sku": "item",
-                "price": "1.00",
+                "price": money,
                 "currency": "USD",
                 "quantity": 1
             }]
         },
         "amount": {
             "currency": "USD",
-            "total": "1.00"
+            "total": money
         },
-        "description": "This is the payment description."
+        "description": "Thank you for registration this service!"
     }]
 };
 
 paypal.payment.create(create_payment_json, function (error, payment) {
   if (error) {
-      throw error;
+    //   throw error;
+    console.log(error.response);
+    res.send("error");
   } else {
       console.log("Create Payment Response");
       console.log(payment);
@@ -96,7 +104,7 @@ app.get("/payment/success", (req, res) => {
     ) {
         if (error) {
             console.log(error.response);
-            throw error;
+            res.send("error");
         } else {
             console.log("Get Payment Response");
             console.log(JSON.stringify(payment));
