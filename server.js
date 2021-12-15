@@ -30,21 +30,24 @@ app.get("/payment", (req, res) => {
   res.render("paypal-view");
 })
 
+let money = 0;
+
 app.get("/payment/paypal/:money/:name", (req, res) => {
   
-  let money =  req.params.money;
+   money =  req.params.money;
   let name = req.params.name;
+  console.log("name: " + name);
+  console.log("money: " + money);
 
 
-  
   var create_payment_json = { 
     "intent": "sale", 
     "payer": {
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://still-wave-21655.herokuapp.com/payment/success",
-        "cancel_url": "http://still-wave-21655.herokuapp.com/payment/cancel"
+        "return_url": "http://localhost:3000/payment/success",
+        "cancel_url": "http://localhost:3000/payment/cancel"
     },
     "transactions": [{
         "item_list": {
@@ -56,6 +59,7 @@ app.get("/payment/paypal/:money/:name", (req, res) => {
                 "quantity": 1
             }]
         },
+
         "amount": {
             "currency": "USD",
             "total": money
@@ -84,6 +88,7 @@ paypal.payment.create(create_payment_json, function (error, payment) {
 
 app.get("/payment/success", (req, res) => {
   //res.send("Success");
+  console.log("money success: " + money);
   var PayerID = req.query.PayerID;
     var paymentId = req.query.paymentId;
     var execute_payment_json = {
@@ -92,7 +97,7 @@ app.get("/payment/success", (req, res) => {
             {
                 amount: {
                     currency: "USD",
-                    total: "1.00"
+                    total: money
                 }
             }
         ]
