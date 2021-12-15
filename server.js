@@ -46,8 +46,8 @@ app.get("/payment/paypal/:money/:name", (req, res) => {
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://localhost:3000/payment/success",
-        "cancel_url": "http://localhost:3000/payment/cancel"
+        "return_url": "http://still-wave-21655.herokuapp.com/payment/success",
+        "cancel_url": "http://still-wave-21655.herokuapp.com/payment/cancel"
     },
     "transactions": [{
         "item_list": {
