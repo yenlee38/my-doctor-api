@@ -142,7 +142,8 @@ exports.exist = (req, res) => {
           count: 0,
         });
       }
-    } else res.json({ message: "Find one position!", count: 1 });
+    } else
+      res.json({ message: "Find one position!", count: 1, position: data });
   });
 };
 

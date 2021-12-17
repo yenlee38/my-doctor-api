@@ -107,3 +107,21 @@ exports.update = (req, res) => {
     }
   );
 };
+
+exports.updateToken = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+    });
+  }
+
+  Patient.updateToken(req.body.token, req.body.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).json({ message: `Not found Patient` });
+      } else {
+        res.status(500).json({ message: "Error updating Patient" });
+      }
+    } else res.json({ message: "Updated profile success!" });
+  });
+};

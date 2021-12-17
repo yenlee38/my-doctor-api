@@ -9,6 +9,7 @@ const Patient = function (patient) {
   this.birthDate = patient.birthDate;
   this.gender = patient.gender;
   this.address = patient.address;
+  this.token = patient.token;
   this.createdAt = patient.createdAt;
   this.updatedAt = patient.updatedAt;
 };
@@ -124,4 +125,25 @@ Patient.updateById = (id, patient, result) => {
     }
   );
 };
+
+Patient.updateToken = (token, id, result) => {
+  sql.query(
+    "UPDATE patient SET token = ?, updatedAt = ? WHERE id = ?",
+    [token, new Date(), id],
+    (err, res) => {
+      if (err) {
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      result(null, { id: id });
+    }
+  );
+};
+
 module.exports = Patient;
