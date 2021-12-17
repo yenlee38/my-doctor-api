@@ -143,12 +143,8 @@ Position.getMaxPosition = (department, date, result) => {
 
 Position.exist = (position, result) => {
   sql.query(
-    "SELECT * FROM position where room = ? and date like '?%' and number = ?",
-    [
-      position.room,
-      new Date(position.date).toISOString().split("T")[0],
-      position.number,
-    ],
+    "SELECT * FROM position where room = ? and date = ? and number = ?",
+    [position.room, position.date, position.number],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
