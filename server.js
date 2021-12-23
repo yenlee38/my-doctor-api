@@ -36,10 +36,6 @@ app.get("/payment/paypal/:money/:name", (req, res) => {
   
    money =  req.params.money;
   let name = req.params.name;
-  console.log("name: " + name);
-  console.log("money: " + money);
-
-
   var create_payment_json = { 
     "intent": "sale", 
     "payer": {
@@ -72,7 +68,7 @@ paypal.payment.create(create_payment_json, function (error, payment) {
   if (error) {
     //   throw error;
     console.log(error.response);
-    res.send("error");
+    res.render("error");
   } else {
       console.log("Create Payment Response");
       console.log(payment);
@@ -153,3 +149,4 @@ require("./app/routes/prescription.routes")(app);
 require("./app/routes/schedule.routes")(app);
 require("./app/routes/service.routes")(app);
 require("./app/routes/doctor-registration.routes")(app);
+require("./app/routes/message.routes")(app);
