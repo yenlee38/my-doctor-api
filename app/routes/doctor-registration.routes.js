@@ -4,6 +4,8 @@ module.exports = (app) => {
     app.get("/doctor-registration", doctorRegistration.getAll);
   
     app.get("/doctor-registration/patient/:patientId", doctorRegistration.findByPatientId);
+
+    app.get("/doctor-registration/patient/:patientId/doctor/:doctorId", doctorRegistration.findByPatientIdAndDoctorId);
  
     // Retrieve a single Doctor with doctorId
     app.get("/doctor-registration/:id", doctorRegistration.findById);
