@@ -86,4 +86,21 @@ DoctorRegistration.getByPatientId = (patientId, result) =>{
     })
 }
 
+DoctorRegistration.getByPatientIdAndDoctorId = (patientId, doctorId, result) =>{
+  sql.query(`select * from DoctorRegistration where patientId = "${patientId}" and doctorId = "${doctorId}"`, (err, res) =>{
+      if (err) {
+          result(err, null);
+          return;
+      }
+
+      if (res.length) {
+          result(null, res);
+          return;
+      }
+
+      result({kind: "not_found"}, null);
+  })
+}
+
+
 module.exports = DoctorRegistration;
