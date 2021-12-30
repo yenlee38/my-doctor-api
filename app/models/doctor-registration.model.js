@@ -86,6 +86,22 @@ DoctorRegistration.getByPatientId = (patientId, result) =>{
     })
 }
 
+DoctorRegistration.getByDoctorId = (doctorId, result) =>{
+  sql.query(`select * from DoctorRegistration where doctorId = "${doctorId}"`, (err, res) =>{
+      if (err) {
+          result(err, null);
+          return;
+      }
+
+      if (res.length) {
+          result(null, res);
+          return;
+      }
+
+      result({kind: "not_found"}, null);
+  })
+}
+
 DoctorRegistration.getByPatientIdAndDoctorId = (patientId, doctorId, result) =>{
   sql.query(`select * from DoctorRegistration where patientId = "${patientId}" and doctorId = "${doctorId}" and status = "CONFIRMED"`, (err, res) =>{
       if (err) {

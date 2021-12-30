@@ -144,6 +144,30 @@ exports.findByPatientId = (req, res) => {
     })
 }
 
+exports.findByDoctorId = (req, res) => {
+  DoctorRegistration.getByDoctorId (req.params.doctorId, (err, data) => {
+      if(err){
+          if(err.kind == "not_found"){
+              res.status(404).json({
+                  message: "Not found DoctorRegistration by doctor id: " + req.params.doctorId,
+                  doctorRegistration: null,
+                  count: 0
+              })
+          }else res.status(500).json({
+           message: err.message  || "Some thing was wrong when find by doctor id: " + req.params.doctorId,
+           doctorRegistration: null,
+           count: 0
+          })
+      }
+      else
+      res.json({
+          message:"Find DoctorRegistration by doctor id!",
+          count:1,
+          doctorRegistration: data
+      });
+  })
+}
+
 exports.findByPatientIdAndDoctorId = (req, res) => {
   DoctorRegistration.getByPatientIdAndDoctorId (req.params.patientId, req.params.doctorId, (err, data) => {
       if(err){
