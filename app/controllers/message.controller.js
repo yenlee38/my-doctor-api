@@ -61,6 +61,7 @@ exports.create = (req, res) =>{
         id: uuidv4(),
         senderId: req.body.senderId,
         recieverId: req.body.recieverId,
+        content: req.body.content,
         createdAt: new Date(),
         updatedAt: new Date(),
         isHidden: false,
