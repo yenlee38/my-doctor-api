@@ -1,3 +1,5 @@
+const sql = require("./db.js");
+
 const Message = function(message){
     this.id = message.id;
     this.senderId = message.senderId;
