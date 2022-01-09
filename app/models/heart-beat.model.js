@@ -55,7 +55,7 @@ HeartBeat.getById = (id, result) =>{
 }
 
 HeartBeat.getByPatientId = (patientId, result) =>{
-    sql.query(`select * from HeartBeat where patientId = "${patientId}"`, (err, res) =>{
+    sql.query(`select * from HeartBeat where patientId = "${patientId}" and isHidden = false`, (err, res) =>{
         if(err){
             result(err, null);
             return;

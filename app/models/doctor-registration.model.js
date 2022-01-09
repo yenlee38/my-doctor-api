@@ -71,7 +71,7 @@ DoctorRegistration.getAll = result => {
 } 
 
 DoctorRegistration.getByPatientId = (patientId, result) =>{
-    sql.query(`select * from DoctorRegistration where patientId = "${patientId}"`, (err, res) =>{
+    sql.query(`select * from DoctorRegistration where patientId = "${patientId}" and isHidden = false`, (err, res) =>{
         if (err) {
             result(err, null);
             return;
@@ -87,7 +87,7 @@ DoctorRegistration.getByPatientId = (patientId, result) =>{
 }
 
 DoctorRegistration.getByDoctorId = (doctorId, result) =>{
-  sql.query(`select * from DoctorRegistration where doctorId = "${doctorId}"`, (err, res) =>{
+  sql.query(`select * from DoctorRegistration where doctorId = "${doctorId}" and isHidden = false`, (err, res) =>{
       if (err) {
           result(err, null);
           return;
@@ -103,7 +103,7 @@ DoctorRegistration.getByDoctorId = (doctorId, result) =>{
 }
 
 DoctorRegistration.getByPatientIdAndDoctorId = (patientId, doctorId, result) =>{
-  sql.query(`select * from DoctorRegistration where patientId = "${patientId}" and doctorId = "${doctorId}" and status = "CONFIRMED"`, (err, res) =>{
+  sql.query(`select * from DoctorRegistration where patientId = "${patientId}" and doctorId = "${doctorId}" and status = "CONFIRMED" and isHidden = false `, (err, res) =>{
       if (err) {
           result(err, null);
           return;
@@ -118,5 +118,24 @@ DoctorRegistration.getByPatientIdAndDoctorId = (patientId, doctorId, result) =>{
   })
 }
 
+DoctorRegistration.remove = (id, result) =>{
+  sql.query(`Update DoctorRegistration set isHidden = true where id = "${id}"`, (err, res) =>{
+      if(err){
+          console.log("err: "+ err);
+          result(err, null);
+          return;
+      }
+
+      if(res.affectedRows == 0){
+          console.log("Not found DoctorRegistration for delete by id: " + id);
+          result(err, null);
+          return;
+      }
+
+      console.log("Delete DoctorRegistration by id: " + id)
+      result(null, res)
+  })
+
+}
 
 module.exports = DoctorRegistration;

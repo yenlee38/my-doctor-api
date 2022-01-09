@@ -10,5 +10,6 @@ module.exports = (app) => {
     app.post("/message", message.create);
     app.get("/message/sender/:senderId", message.findBySenderId);
     app.get("/message/:recieverId", message.findByRecieverId);
+ 
   };
   

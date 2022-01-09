@@ -14,5 +14,7 @@ module.exports = (app) => {
     app.post("/doctor-registration", doctorRegistration.create);
 
     app.post("/doctor-registration/update/:id", doctorRegistration.update);
+    app.put("/heartBeat/:id/delete", doctorRegistration.delete);
+
   };
   

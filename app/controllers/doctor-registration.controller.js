@@ -191,3 +191,22 @@ exports.findByPatientIdAndDoctorId = (req, res) => {
       });
   })
 }
+
+exports.delete = (req, res) =>{
+  HeartBeat.remove(req.params.id, (err, data) =>{
+      if(err){
+          if(err.kind == "not_found"){
+              res.status(404).json({
+                  message: "Not found Heart Beat by id: " + req.params.id,
+                  doctorRegistration: null,
+                  count: 0
+              })
+          }else res.status(500).json({
+           message: err.message  || "Some thing was wrong when find by id: " + req.params.id,
+           doctorRegistration: null,
+           count: 0
+          })
+      }
+      res.json( {message:`DoctorRegistration was deleted successfully !`});
+  })
+}
