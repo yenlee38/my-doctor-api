@@ -193,7 +193,7 @@ exports.findByPatientIdAndDoctorId = (req, res) => {
 }
 
 exports.delete = (req, res) =>{
-  HeartBeat.remove(req.params.id, (err, data) =>{
+  DoctorRegistration.remove(req.params.id, (err, data) =>{
       if(err){
           if(err.kind == "not_found"){
               res.status(404).json({
