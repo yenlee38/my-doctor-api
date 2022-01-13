@@ -257,22 +257,4 @@ Position.getAllByRoomState = (room, state, dept, result) => {
   );
 };
 
-// Position.getAllByDayAndRoom = (result) => {
-//   sql.query(
-//     `SELECT * FROM position where state = "${NUMBER_STATE.NOT_USE}"`,
-//     (err, res) => {
-//       if (err) {
-//         console.log("error: ", err);
-//         result(null, err);
-//         return;
-//       }
-
-//       console.log("positions: ", res);
-//       result(null, res);
-//     }
-//   );
-// };
-
-
-
 module.exports = Position;
