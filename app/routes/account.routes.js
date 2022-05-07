@@ -8,6 +8,7 @@ module.exports = (app) => {
   app.get("/accounts", requireSignin, accounts.findAll);
   app.get("/accounts/:accountId", requireSignin, accounts.findById);
   app.get("/accounts/:username/username", accounts.exist);
+  app.get("/accounts/getAll/admin", accounts.findAllByAdmin);
 
   app.put("/accounts/forgotPass", accounts.forgotPass);
   app.put("/accounts/disable/:accountId", accounts.disable);

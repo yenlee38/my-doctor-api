@@ -108,7 +108,7 @@ exports.signin = (req, res) => {
       res.status(404).send({
         message: `Can not found account with username: ${req.body.username}`,
         count: 0,
-        account: null
+        account: null,
       });
     }
   });
@@ -337,5 +337,24 @@ exports.changePass = (req, res) => {
         }
       );
     }
+  });
+};
+
+exports.findAllByAdmin = (req, res) => {
+  Account.getAllAccountByAdmin((err, data) => {
+    if (err) {
+      res.status(500).json({
+        message: err.message || "Some thing was wrong when get all Account",
+        count: 0,
+        account: null,
+      });
+      return;
+    }
+
+    res.json({
+      count: 1,
+      message: "List Account !",
+      account: data,
+    });
   });
 };

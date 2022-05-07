@@ -187,4 +187,16 @@ Account.changePass = (password, account, result) => {
   );
 };
 
+Account.getAllAccountByAdmin= (result) => {
+  sql.query("Select * from Account", (err, res) => {
+    if (err) {
+      console.log("Err: " + err);
+      result(err, null);
+      return;
+    }
+
+    result(null, res);
+  });
+};
+
 module.exports = Account;
