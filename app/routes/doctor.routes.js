@@ -19,14 +19,59 @@ module.exports = (app) => {
 
   //update Image
   app.post(
+    "/doctor/image/:doctorId",
+    upload.uploadImage.single("image"),
+    async (req, res) => {
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        let doctor = new Doctor({
+          id: req.params.doctorId,
+          avatar: result.secure_url,
+        });
+
+        Doctor.updateAvatar(doctor, (err, data) => {
+          if (err) {
+            if (err.kind === "not_found") {
+              res.status(404).json({
+                message: `Not found doctor with id ${req.params.doctorId}.`,
+                count: 0,
+                doctor: null,
+              });
+            } else {
+              res.status(500).json({
+                message: "Error updating doctor with id " + req.params.doctorId,
+                count: 0,
+                doctor: null,
+              });
+            }
+          } else
+            res.json({
+              message: "Updated doctor success!",
+              count: 1,
+              doctor: doctor,
+            });
+        });
+      } catch (e) {
+        console.log(e);
+        res.status(404).json({
+          message: e,
+          count: 0,
+          doctor: null,
+        });
+      }
+    }
+  );
+
+  //update Image
+  app.post(
     "/doctor/upload/:doctorId",
     upload.uploadImage.single("image"),
     async (req, res) => {
       try {
-        cloudinary.uploader.upload(req.file.path).then((res) => {
+        cloudinary.uploader.upload(req.file.path).then((result) => {
           let doctor = new Doctor({
             id: req.params.doctorId,
-            avatar: res.secure_url,
+            avatar: result.secure_url,
           });
           Doctor.updateAvatar(doctor, (err, data) => {
             if (err) {

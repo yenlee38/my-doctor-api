@@ -16,7 +16,7 @@ const Doctor = function (doctor) {
 
 Doctor.updateAvatar = (doctor, result) => {
   sql.query(
-    "Update doctor set avatar = ?, updatedAt = ?, where id = ?",
+    "Update Doctor set avatar = ?, updatedAt = ?, where id = ?",
     [doctor.avatar, new Date(), doctor.id],
     (err, res) => {
       if (err) {
