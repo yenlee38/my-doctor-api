@@ -1,4 +1,5 @@
 const Doctor = require("../models/doctor.model.js");
+const cloudinary = require("../middleware/cloudinary");
 const { v4: uuidv4 } = require("uuid");
 
 exports.findAll = (req, res) => {
@@ -14,6 +15,46 @@ exports.findAll = (req, res) => {
         message: "Get all list doctor!",
       });
   });
+};
+
+exports.uploadAvatar = async (req, res) => {
+  try {
+    const result = await cloudinary.uploader.upload(req.file.path);
+    let doctor = new Doctor({
+      id: req.params.doctorId,
+      avatar: result.secure_url,
+    });
+
+    Doctor.updateAvatar(doctor, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).json({
+            message: `Not found Doctor with id ${req.params.doctorId}.`,
+            count: 0,
+            doctor: null,
+          });
+        } else {
+          res.status(500).json({
+            message: "Error updating Doctor with id " + req.params.doctorId,
+            count: 0,
+            doctor: null,
+          });
+        }
+      } else
+        res.json({
+          message: "Updated doctor success!",
+          count: 1,
+          doctor: new Doctor(req.body),
+        });
+    });
+  } catch (e) {
+    console.log(r);
+    res.status(404).json({
+      message: e,
+      count: 0,
+      doctor: null,
+    });
+  }
 };
 
 // Find Doctors with a department

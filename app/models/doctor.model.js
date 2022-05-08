@@ -14,6 +14,29 @@ const Doctor = function (doctor) {
   this.updatedAt = doctor.updatedAt;
 };
 
+Doctor.updateAvatar = (doctor, result) => {
+  sql.query(
+    "Update doctor set avatar = ?, updatedAt = ?, where id = ?",
+    [doctor.avatar, new Date(), doctor.id],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found doctor with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated doctor: ", { id: doctor.id });
+      result(null, { id: doctor.id });
+    }
+  );
+};
+
 Doctor.create = (doctor, result) => {
   sql.query(`INSERT INTO doctor set ?`, doctor, (err, res) => {
     if (err) {
