@@ -23,33 +23,34 @@ module.exports = (app) => {
     upload.uploadImage.single("image"),
     async (req, res) => {
       try {
-        const result = await cloudinary.uploader.upload(req.file.path);
-        let doctor = new Doctor({
-          id: req.params.doctorId,
-          avatar: result.secure_url,
-        });
-
-        Doctor.updateAvatar(doctor, (err, data) => {
-          if (err) {
-            if (err.kind === "not_found") {
-              res.status(404).json({
-                message: `Not found doctor with id ${req.params.doctorId}.`,
-                count: 0,
-                doctor: null,
+        cloudinary.uploader.upload(req.file.path).then((res) => {
+          let doctor = new Doctor({
+            id: req.params.doctorId,
+            avatar: res.secure_url,
+          });
+          Doctor.updateAvatar(doctor, (err, data) => {
+            if (err) {
+              if (err.kind === "not_found") {
+                res.status(404).json({
+                  message: `Not found doctor with id ${req.params.doctorId}.`,
+                  count: 0,
+                  doctor: null,
+                });
+              } else {
+                res.status(500).json({
+                  message:
+                    "Error updating doctor with id " + req.params.doctorId,
+                  count: 0,
+                  doctor: null,
+                });
+              }
+            } else
+              res.json({
+                message: "Updated doctor success!",
+                count: 1,
+                doctor: doctor,
               });
-            } else {
-              res.status(500).json({
-                message: "Error updating doctor with id " + req.params.doctorId,
-                count: 0,
-                doctor: null,
-              });
-            }
-          } else
-            res.json({
-              message: "Updated doctor success!",
-              count: 1,
-              doctor: new Doctor(req.body),
-            });
+          });
         });
       } catch (e) {
         console.log(e);
