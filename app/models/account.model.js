@@ -116,6 +116,28 @@ Account.disableById = (id, account, result) => {
   );
 };
 
+Account.enableById = (id, account, result) => {
+  sql.query(
+    `UPDATE account SET isHidden = false WHERE id = "${id}"`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found account with the id
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated account: ", { id: id, ...account });
+      result(null, { ...account });
+    }
+  );
+};
+
 Account.getSalt = (username, result) => {
   sql.query(
     "SELECT * FROM Account WHERE username = ?",
@@ -187,7 +209,7 @@ Account.changePass = (password, account, result) => {
   );
 };
 
-Account.getAllAccountByAdmin= (result) => {
+Account.getAllAccountByAdmin = (result) => {
   sql.query("Select * from Account", (err, res) => {
     if (err) {
       console.log("Err: " + err);

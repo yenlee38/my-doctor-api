@@ -228,6 +228,54 @@ Account.hashPassword = (password, salt) => {
   }
 };
 
+exports.enable = (req, res) => {
+  if (!req.body) {
+    res.status(400).json({
+      message: "Content can not be empty!",
+      count: 0,
+      account: null,
+    });
+    return;
+  }
+
+  Account.enableById(
+    req.params.accountId,
+    new Account(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).json({
+            message: `Not found Account with id ${req.params.accountId}.`,
+            count: 0,
+            account: null,
+          });
+        } else {
+          res.status(500).json({
+            message: "Error updating Account with id " + req.params.accountId,
+            count: 0,
+            account: null,
+          });
+        }
+      } else
+        res.json({
+          count: 1,
+          message: "Enable account success!",
+          account: data,
+        });
+      return;
+    }
+  );
+};
+
+Account.hashPassword = (password, salt) => {
+  if (!password) return "";
+  try {
+    return crypto.createHmac("sha1", salt).update(password).digest("hex");
+  } catch (err) {
+    return "";
+  }
+};
+
 exports.findAll = (req, res) => {
   Account.getAll((err, data) => {
     if (err) {

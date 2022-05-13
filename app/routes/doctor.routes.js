@@ -17,6 +17,8 @@ module.exports = (app) => {
   // Update a Doctor with doctorId
   app.put("/doctor/:doctorId", doctor.update);
 
+  app.put("/doctor/profile/update", doctor.updateProfile);
+
   //update Image
   app.post(
     "/doctor/image/:doctorId",
