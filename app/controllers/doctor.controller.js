@@ -143,3 +143,43 @@ exports.update = (req, res) => {
       });
   });
 };
+
+exports.updateProfile = (req, res) => {
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+  let doctor = new Doctor({
+    id: req.body.id,
+    fullname: req.body.fullname,
+    department: req.body.department,
+    phone: req.body.phone,
+    education: req.body.education,
+    gender: req.body.gender,
+    birthDate: req.body.birthDate,
+    updatedAt: new Date(),
+  });
+  Doctor.updateProfile(doctor, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Doctor with id ${doctor.id}.`,
+          doctor: null,
+          count: 0,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating Doctor with id " + doctor.id,
+          doctor: null,
+          count: 0,
+        });
+      }
+    } else
+      res.json({
+        message: "Updated doctor !",
+        count: 1,
+        doctor: doctor,
+      });
+  });
+};

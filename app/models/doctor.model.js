@@ -16,8 +16,8 @@ const Doctor = function (doctor) {
 
 Doctor.updateAvatar = (doctor, result) => {
   sql.query(
-    "Update Doctor set avatar = ?, updatedAt = ?, where id = ?",
-    [doctor.avatar, new Date(), doctor.id],
+    `Update Doctor set avatar = ?, updatedAt = ? where id = "${doctor.id}"`,
+    [doctor.avatar, new Date()],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -29,10 +29,7 @@ Doctor.updateAvatar = (doctor, result) => {
         // not found doctor with the id
         result({ kind: "not_found" }, null);
         return;
-      }
-
-      console.log("updated doctor: ", { id: doctor.id });
-      result(null, { id: doctor.id });
+      } else result(null, { id: doctor.id });
     }
   );
 };
@@ -113,6 +110,32 @@ Doctor.getAll = (result) => {
     }
   );
 };
+Doctor.updateProfile = (doctor, result) => {
+  sql.query(
+    `UPDATE doctor SET gender = ?, fullname = ?, birthDate = ?, education = ?, phone = ?, department = ?, updatedAt = ? WHERE id = "${doctor.id}"`,
+    [
+      doctor.gender,
+      doctor.fullname,
+      doctor.birthDate,
+      doctor.education,
+      doctor.phone,
+      doctor.department,
+      new Date(),
+    ],
+    (err, res) => {
+      if (err) {
+        console.log({ err });
+        result(err, null);
+        return;
+      }
+      if (res.affectedRows == 0) {
+        result({ kind: "not_found" }, null);
+        return;
+      }
+      result(null, { ...doctor });
+    }
+  );
+};
 
 Doctor.updateById = (id, doctor, result) => {
   Object.values(GENDER).every((element) => {
@@ -127,7 +150,7 @@ Doctor.updateById = (id, doctor, result) => {
     return true;
   });
   sql.query(
-    "UPDATE doctor SET avatar = ?, fullname = ?, birthDate = ?, education = ?, phone = ?, department = ?, updatedAt = ? WHERE id = ?",
+    `UPDATE doctor SET avatar = ?, fullname = ?, birthDate = ?, education = ?, phone = ?, department = ?, updatedAt = ? WHERE id = "${id}"`,
     [
       doctor.avatar,
       doctor.fullname,
@@ -136,7 +159,6 @@ Doctor.updateById = (id, doctor, result) => {
       doctor.phone,
       doctor.department,
       new Date(),
-      id,
     ],
     (err, res) => {
       if (err) {
