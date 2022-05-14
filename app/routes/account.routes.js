@@ -7,6 +7,10 @@ module.exports = (app) => {
 
   app.get("/accounts", requireSignin, accounts.findAll);
   app.get("/accounts/:accountId", requireSignin, accounts.findById);
+  app.get(
+    "/accounts/non-hash-pass/:accountId",
+    accounts.getAccountNonHashPassword
+  );
   app.get("/accounts/:username/username", accounts.exist);
   app.get("/accounts/getAll/admin", accounts.findAllByAdmin);
 
