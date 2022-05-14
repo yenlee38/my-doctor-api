@@ -71,6 +71,7 @@ exports.signin = (req, res) => {
       });
 
       Account.signin(account.username, account.password, (err, data) => {
+        console.log({ err });
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).json({
@@ -142,6 +143,34 @@ exports.isAdmin = (req, res, next) => {
     });
   }
   next();
+};
+
+exports.getAccountNonHashPassword = (req, res) => {
+  Account.getById(req.params.accountId, (err, data) => {
+    if (err) {
+      if (err.kind == "not_found")
+        res.status(404).json({
+          message: "Not found Account by id " + req.params.accountId,
+          count: 0,
+          account: null,
+        });
+      else
+        res.status(500).json({
+          message:
+            err.message ||
+            "Some thing was wrong when find Account by id " +
+              req.params.accountId,
+          count: 0,
+          account: null,
+        });
+      return;
+    } else {
+      console.log(data.password);
+      data.password = Account.generateHashedPassword(data.salt, data.password);
+      console.log(data.password);
+      res.json({ account: data, message: "Account find by id!", count: 1 });
+    }
+  });
 };
 
 exports.forgotPass = (req, res) => {
@@ -228,6 +257,10 @@ Account.hashPassword = (password, salt) => {
   }
 };
 
+Account.generateHashedPassword = (salt, text) => {
+  var hmac = crypto.createHmac("sha1", salt);
+  return hmac.update(text).digest("hex");
+};
 exports.enable = (req, res) => {
   if (!req.body) {
     res.status(400).json({

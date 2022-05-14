@@ -50,7 +50,7 @@ Account.signup = (newAccount, result) => {
 
 Account.signin = (username, password, result) => {
   sql.query(
-    "SELECT * FROM Account WHERE username = ? and password = ?",
+    "SELECT * FROM Account WHERE username = ? and password = ? and isHidden = false",
     [username, password],
     (err, res) => {
       if (err) {
