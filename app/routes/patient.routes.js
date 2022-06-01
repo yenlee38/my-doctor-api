@@ -4,7 +4,6 @@ module.exports = (app) => {
   const Patient = require("../models/patient.model.js");
   const cloudinary = require("../middleware/cloudinary");
 
-
   app.get("/patient", patient.findAll);
   // Retrieve a single Patient with patientId
   app.get("/patient/:patientId", patient.findOne);
@@ -45,7 +44,7 @@ module.exports = (app) => {
             res.json({
               message: "Updated patient success!",
               count: 1,
-              patient: new Patient(req.body),
+              patient: patient,
             });
         });
       } catch (e) {
@@ -54,6 +53,28 @@ module.exports = (app) => {
           message: e,
           count: 0,
           patient: null,
+        });
+      }
+    }
+  );
+
+  //send Image
+  app.post(
+    "/send/image",
+    upload.uploadImage.single("image"),
+    async (req, res) => {
+      try {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        res.json({
+          message: " send image success!",
+          count: 1,
+          url: result.secure_url,
+        });
+      } catch (err) {
+        res.status(404).json({
+          message: " send image failed!",
+          count: 0,
+          url: null,
         });
       }
     }
